@@ -1,14 +1,15 @@
 # libraries
-pacman::p_load("shiny", "shinyjs", "shinyWidgets", "DT", "readxl", "dplyr", "writexl", "ggplot2", "tidyverse")
+pacman::p_load("shiny", "shinyjs", "shinyWidgets", "DT", "readxl", "writexl", "tidyverse")
 
 # Read the data from the file at the start
-dataset <- readxl::read_excel('./data/SO-Methods-Costs-selection.xlsx')
-datasetCosts <- readxl::read_excel('./data/eLTER-SO_costs-V021.xlsx')
+dataset <- read_excel('./data/SO-Methods-Costs-selection.xlsx')
+datasetCosts <- read_excel('./data/eLTER-SO_costs-V021.xlsx')
+
 # changing the name of the variable
 datasetCosts <- datasetCosts %>% 
   rename(type = method)
 
-# Custom ggplot2 eLTER theme
+# Custom eLTER theme
 # Defining custom colors
 color1 <- "#ED9632" 
 color2 <- "#0879C0" 
@@ -55,7 +56,7 @@ station_requirements <- function(dataset, cat, hab, spheres) {
 
 # Function to calculate the costs per year
 SO_cost <- function(input_code, input_type) {
-  # Filter data for the specific code using dplyr::filter
+  # Filtering the data
   filtered_data <- datasetCosts %>%
     dplyr::filter(code == input_code, type == input_type)
   
@@ -68,7 +69,7 @@ SO_cost <- function(input_code, input_type) {
                       totalCostYear = NA))
   }
   
-  # Calculate costs using dplyr::mutate
+  # Calculating the costs
   results <- filtered_data %>%
     dplyr::mutate(
       purchaseCostYear = ifelse(purchasePrice > 0, round(((purchasePrice * minimumSamplePerSite) / upgradeInterval), 0), round((purchasePrice * minimumSamplePerSite), 0)),
@@ -85,7 +86,7 @@ SO_cost <- function(input_code, input_type) {
 
 # Shiny app UI
 ui <- fluidPage(
-  # Add a header or instructions at the top of the app
+  # Adding a header with instructions at the top of the app
   tags$div(
     class = "app-description",
     tags$h2("Welcome to the Standard Observations costs App!"),
@@ -247,7 +248,6 @@ ui <- fluidPage(
           labs(x = "Type of Standard Observation", y = "Count", fill = "") +
           coord_flip() +
           scale_fill_manual(values = sphere_colors) +
-          # scale_fill_elter() +
           theme_bw() +
           theme(text = element_text(size = 18), legend.position = "bottom")
       })
@@ -353,8 +353,6 @@ ui <- fluidPage(
       ggplot(aes(x = reorder(costType, euro), y = (euro/1000), fill = costType)) +
       geom_bar(stat = "identity", position = position_dodge(), fill = "#226755", col = "black", alpha = 0.8) +
       geom_text(aes(label = round(euro/1000, 1), vjust = -0.35), col = "gray15", size = 14/.pt) +
-      # geom_text(position = position_dodge(1.2), col = "gray15", size = 14/.pt,
-      #           aes(label = round(euro/1000, 1))) +
       labs(x = "Cost type", y = "Cost in k€") +
       coord_cartesian(clip = "off") +
       theme_bw() +
@@ -458,7 +456,6 @@ ui <- fluidPage(
       ggsave(file, plot = plot, width = 8, height = 6, device = "png")
     }
   )
-  
   
   
     } 
