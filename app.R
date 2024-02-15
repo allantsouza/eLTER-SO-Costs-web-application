@@ -167,7 +167,7 @@ ui <- fluidPage(
         ),
         tags$li(HTML("<b>Informative visualizations</b>")),
         tags$ul(
-          tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor costs by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
+          tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
         )
       ),
       tags$h2("Disclaimer"),
@@ -245,10 +245,10 @@ ui <- fluidPage(
           ),
           column(
             6,
-            h4("Annual labor cost by sphere", style = "text-align: center;"),
+            h4("Annual labor effort by sphere", style = "text-align: center;"),
             p("This plot depicts the total working days by sphere needed to operate the eLTER site.", style = "text-align: center;"),
             plotOutput("sphereFTECostPlot"),
-            downloadButton("downloadHumanCostPlot", "Download: labor cost", icon = icon("chart-simple")),
+            downloadButton("downloadHumanCostPlot", "Download: labor effort", icon = icon("chart-simple")),
             h4("Annual cost breakdown by sphere", style = "text-align: center;"),
             p("This plot illustrates how costs are distributed across different spheres to operate the eLTER site.", style = "text-align: center;"),
             plotOutput("sphereCostPlot"),
@@ -430,6 +430,10 @@ server <- function(input, output, session) {
       SO_cost(unique_combinations$code[i], unique_combinations$type[i])
     }))
     
+    # Join to include so_short_name
+    cost_data <- cost_data %>%
+      left_join(codes_coding, by = "code")
+    
     # Replace NA values with zero in selected columns
     cost_data <- cost_data %>%
       mutate(
@@ -458,11 +462,11 @@ server <- function(input, output, session) {
     summary_row <- cost_data %>%
       summarise_if(is.numeric, sum, na.rm = TRUE) %>%
       mutate(
-        "code" = "Total",
+        so_short_name = "Total",
         "type" = NA
       ) %>%
-      relocate(code, .before = purchaseCostYear) %>%
-      relocate(type, .after = code)
+      relocate(so_short_name, .before = purchaseCostYear) %>%
+      relocate(type, .after = so_short_name)
     
     # Append the summary row to the original data
     final_data <- bind_rows(cost_data, summary_row)
@@ -470,17 +474,28 @@ server <- function(input, output, session) {
     # Render the DataTable with the final data
     datatable(
       final_data %>%
+        relocate(totalHumanLabor, .after = totalCostYear) %>%
+        relocate(so_short_name, .after = code) %>%
+        select(-code) %>%
+        arrange(totalCostYear, totalHumanLabor) %>%
         rename(
-          "SO code" = code,
+          "SO short name" = so_short_name,
           "Method type" = type,
           "Purchase (per year)" = purchaseCostYear,
           "Maintenance (per year)" = maintenanceCostYear,
           "Sampling (per year)" = samplingCostYear,
           "Lab analysis (per year)" = labAnalysisCostYear,
-          "Person days (per year)" = totalHumanLabor,
-          "Total cost (per year)" = totalCostYear
+          "Total cost (per year)" = totalCostYear,
+          "Person days (per year)" = totalHumanLabor
         ),
-      options = list(pageLength = 68),
+      options = list(
+        pageLength = 68,
+        columnDefs = list(
+          list(width = "500px", targets = c(0)),
+          list(width = "60px", targets = c(1))
+        ),
+        autoWidth = TRUE
+      ),
       filter = "top", # Enable filtering inputs at the top of the table
       rownames = FALSE,
       selection = "none" # removing the option to highlight rows on the table
@@ -507,7 +522,7 @@ server <- function(input, output, session) {
                   backgroundPosition = "center"
       ) %>%
       formatStyle("Person days (per year)",
-                  background = styleColorBar(range(final_data$totalHumanLabor), "#F26522"),
+                  background = styleColorBar(range(final_data$totalHumanLabor), color1),
                   backgroundSize = "100% 100%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center"
@@ -532,7 +547,7 @@ server <- function(input, output, session) {
       ) %>%
       # Highlighting the summary row
       formatStyle(
-        "SO code",
+        "SO short name",
         target = "row",
         backgroundColor = styleEqual("Total", "#F26522"),
         color = styleEqual("Total", "white")
@@ -555,25 +570,29 @@ server <- function(input, output, session) {
       summary_row <- cost_data %>%
         summarise_if(is.numeric, sum, na.rm = TRUE) %>%
         mutate(
-          "code" = "Total",
+          so_short_name = "Total",
           "type" = NA
         ) %>%
-        relocate(code, .before = purchaseCostYear) %>%
-        relocate(type, .after = code)
+        relocate(so_short_name, .before = purchaseCostYear) %>%
+        relocate(type, .after = so_short_name)
       
       # append the summary row to the original data
       final_data <- bind_rows(cost_data, summary_row)
       
       final_data <- final_data %>%
+        relocate(totalHumanLabor, .after = totalCostYear) %>%
+        relocate(so_short_name, .after = code) %>%
+        select(-code) %>%
+        arrange(totalCostYear, totalHumanLabor) %>%
         rename(
-          "SO code" = code,
+          "SO short name" = so_short_name,
           "Method type" = type,
           "Purchase (per year)" = purchaseCostYear,
           "Maintenance (per year)" = maintenanceCostYear,
           "Sampling (per year)" = samplingCostYear,
           "Lab analysis (per year)" = labAnalysisCostYear,
-          "Person days (per year)" = totalHumanLabor,
-          "Total cost (per year)" = totalCostYear
+          "Total cost (per year)" = totalCostYear,
+          "Person days (per year)" = totalHumanLabor
         )
       
       writexl::write_xlsx(final_data, file)
