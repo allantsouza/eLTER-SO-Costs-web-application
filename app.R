@@ -1,9 +1,9 @@
 # libraries
-pacman::p_load("shiny", "shinyjs", "shinyBS", "shinyWidgets", "DT", "readxl", "writexl", "tidyverse")
+pacman::p_load("shiny", "shinyjs", "shinyBS", "shinyWidgets", "DT", "readxl", "writexl", "tidyverse", "htmltools")
 
 # Read the data from the files at the start
 ## file with the SO costs
-datasetCosts <- read_csv("./data/eLTER-SO_costs-V18.csv")
+datasetCosts <- read_csv("./data/eLTER-SO_costs-V18_1.csv")
 
 # changing the name of the variable
 datasetCosts <- datasetCosts %>%
@@ -42,6 +42,25 @@ sphere_colors <- c(
 
 # creating a fill scale
 scale_fill_elter <- function(...) scale_fill_manual(values = c(color1, color2, color3, color4, color5), ...)
+
+# adding pop-up text for the cost table
+# sketch = htmltools::withTags(
+#   table(
+#     class = "display",
+#     thead(
+#       tr(th("SO short name", id = "header-SO"),
+#          th("Method type"),
+#          th("Capital value of equipment", id = "header-equipment"),
+#          th("Replacement costs of equipment"),
+#          th("Maintenance (per year)"),
+#          th("Sampling (per year)"),
+#          th("Lab analysis (per year)"),
+#          th("Total cost (per year)"),
+#          th("Person days (per year)")
+#       )
+#     )
+#   )
+# )
 
 # Custom functions
 costs_elter <- function(dataset, cat, hab) {
@@ -84,9 +103,9 @@ SO_cost <- function(input_code, input_type) {
     # Return an empty data frame or a data frame with default/NA values
     return(data.frame(
       code = input_code, type = input_type,
-      purchaseCostYear = NA, maintenanceCostYear = NA,
-      samplingCostYear = NA, labAnalysisCostYear = NA,
-      totalHumanLabor = NA,
+      purchasePrice = NA, purchaseCostYear = NA,
+      maintenanceCostYear = NA, samplingCostYear = NA,
+      labAnalysisCostYear = NA, totalHumanLabor = NA,
       totalCostYear = NA
     ))
   }
@@ -94,17 +113,20 @@ SO_cost <- function(input_code, input_type) {
   # Calculating costs
   results <- filtered_data %>%
     dplyr::mutate(
+      # 2024-02-19; adding a column displaying the purchase costs independently from the upgrade interval
+      purchasePrice,
       # purchase
       purchaseCostYear = case_when(
+        purchasePrice == 0 ~ 0,
         purchasePrice > 0 & upgradeInterval == 0 ~ round(((purchasePrice * minimumSamplePerSite)), 0),
-        purchasePrice > 0 ~ round(((purchasePrice * minimumSamplePerSite) / upgradeInterval), 0),
-        purchasePrice < 0 ~ round((purchasePrice * minimumSamplePerSite), 0)
+        purchasePrice > 0 & upgradeInterval > 0 ~ round(((purchasePrice * minimumSamplePerSite) / upgradeInterval), 0)
       ),
-      # TODO: Check the maintenance cost formula. I am sure that it is currently wrong. How upgrades should be treated? An upgrade means adding a new purchase or the addition of the maintenance costs? Is the maintenance cost related to the upgradeInterval?
+      # # 2024-02-19: adding the upgrade interval on the table as requested by Steffen Zacharias (2024-02-16)
+      # TODO: Check the maintenance cost formula. How upgrades should be treated? An upgrade means adding a new purchase or the addition of the maintenance costs? Is the maintenance cost related to the upgradeInterval?
       # maintenance
-      maintenanceCostYear = round(maintenancePrice * maintenanceEffort, 0), # it should not include the price per site, as it is priced at for the entire bundle
+      maintenanceCostYear = round(maintenancePrice, 0), # 2024-02-19: Removed the effort (maintenanceEffort) from the calculation following the comments from Steffen Zacharias on 2014-02-16. # it should not include the price per site, as it is priced at for the entire bundle
       # sampling
-      samplingCostYear = round(samplingPrice * measurementsPerYear, 0), # removed the sampling per sites as it shouldn't affect the calculations
+      samplingCostYear = round(samplingPrice, 0), # 2024-02-19: Steffen Zacharias requested to remove the samples per year (measurementsPerYear) from the calculations and consider only the value on the sampling. Removed the sampling per sites as it shouldn't affect the calculations
       # lab analysis
       labAnalysisCostYear = round(labAnalysisPrice * minimumSamplePerSite * measurementsPerYear, 0),
       # human labor
@@ -112,7 +134,7 @@ SO_cost <- function(input_code, input_type) {
     ) %>%
     # total cost
     mutate(totalCostYear = sum(purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, na.rm = T)) %>%
-    dplyr::select(code, type, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)
+    dplyr::select(code, type, purchasePrice, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)
   
   return(results)
 }
@@ -148,7 +170,6 @@ ui <- fluidPage(
     # Add the new "Read Me" tab here
     tabPanel(
       "Read me",
-      # Inside this, you can put whatever content you want. For example:
       tags$h1("Welcome"),
       tags$p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites.")),
       tags$h2("Features"),
@@ -170,6 +191,8 @@ ui <- fluidPage(
           tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
         )
       ),
+      tags$h2("Accessing the source code"),
+      tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-costs-App' target = '_blank'> <b>GitHub</b></a>.")),
       tags$h2("Disclaimer"),
       tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
     ),
@@ -210,9 +233,13 @@ ui <- fluidPage(
           ),
           column(
             6,
-            h2("Estimated cost (per year)"),
+            h2("Estimated costs"),
             textOutput("totalCostsDisplay"),
+            bsTooltip("totalCostsDisplay", "This value sums the annual costs of replacement costs of equipment, maintenance, sampling, and lab analysis. The value used for the purchase costs takes into account the upgrade interval of the equipment (formula: purchase price / upgrade interval).", "left"), # Tooltips
+            textOutput("UpfrontPurchaseCosts"),
+            bsTooltip("UpfrontPurchaseCosts", "This value considers the total initial purchase costs and should be used to estimate the costs of establishing an eLTER site from the beginning.", "left"), # Tooltips
             textOutput("totalHumanLaborDisplay"),
+            bsTooltip("totalHumanLaborDisplay", "Warning: The labor costs are not included in the estimated costs.", "left"), # Tooltips
             p(HTML("<i>Note: The labor costs are not included in the costs. You must calculate the labor costs based on the labor needed at your site (indicated above) and the salary structure in your institution and/or country. Add this number to the estimated costs presented above to have the final cost for your eLTER site.</i>"))
           )
         ),
@@ -221,7 +248,13 @@ ui <- fluidPage(
             12,
             h2("Detailed information on the annual costs to run an eLTER site"),
             p(HTML("This table shows the costs (in €) of the standard observations (SOs) needed to operate the eLTER site with the conditions selected at the <b>Set up</b> tab. The total cost is calculated by summing the different costs types (purchase, maintenance, sampling and lab analysis). Additionally, the table shows the human labor needed to operate the eLTER site, expressed as number of days needed to perform all tasks related to the specific SOs per year. <br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs.</i>")),
+            #br(),
             DTOutput("costTable"),
+            # shinyBS::bsPopover(
+            #   id      = "header-equipment",
+            #   title   = "Capital value of equipment",
+            #   content = "This is an example text"
+            #   ),
             downloadButton("downloadCosts", "Download: cost estimation", icon = icon("table"))
           )
         ),
@@ -266,7 +299,7 @@ server <- function(input, output, session) {
     req(dataset)
     unique_data <- dataset %>%
       distinct(sphere, code, standard_observation)
-    datatable(unique_data, options = list(pageLength = 68))
+    datatable(unique_data, options = list(pageLength = 100))
   })
   
   # Reactive function to compute station requirements
@@ -287,7 +320,7 @@ server <- function(input, output, session) {
     
     # Sort so_short_names alphabetically
     sorted_data <- data %>%
-      arrange(tolower(so_short_name))
+      arrange(sphere, code)
     
     # Prepare choices as named vector, names are displayed, values are sent to server
     choices <- setNames(sorted_data$code, sorted_data$so_short_name)
@@ -318,7 +351,19 @@ server <- function(input, output, session) {
     cost_data <- cost_calculated_data()
     if (nrow(cost_data) > 0) {
       total_cost <- sum(cost_data$totalCostYear, na.rm = TRUE)
-      paste("Total Annual Cost: €", format(total_cost, big.mark = ",", decimal.mark = ".", digits = 2))
+      paste("Total annual cost: €", format(total_cost, big.mark = ",", decimal.mark = ".", digits = 2))
+    } else {
+      "No costs calculated yet."
+    }
+  })
+  
+  
+  # For the upfront purchase costs display
+  output$UpfrontPurchaseCosts <- renderText({
+    cost_data <- cost_calculated_data()
+    if (nrow(cost_data) > 0) {
+      upfront_cost <- sum(cost_data$purchasePrice, na.rm = TRUE)
+      paste("Upfront purchase cost: €", format(upfront_cost, big.mark = ",", decimal.mark = ".", digits = 2))
     } else {
       "No costs calculated yet."
     }
@@ -344,7 +389,7 @@ server <- function(input, output, session) {
           "Standard Observation" = standard_observation,
           "Method type" = type
         ),
-      options = list(pageLength = 68),
+      options = list(pageLength = 100),
       rownames = FALSE,
       selection = "none" # removing the option to highlight rows on the table
     )
@@ -437,6 +482,7 @@ server <- function(input, output, session) {
     # Replace NA values with zero in selected columns
     cost_data <- cost_data %>%
       mutate(
+        purchasePrice = ifelse(is.na(purchasePrice), 0, purchasePrice),
         purchaseCostYear = ifelse(is.na(purchaseCostYear), 0, purchaseCostYear),
         maintenanceCostYear = ifelse(is.na(maintenanceCostYear), 0, maintenanceCostYear),
         samplingCostYear = ifelse(is.na(samplingCostYear), 0, samplingCostYear),
@@ -445,7 +491,7 @@ server <- function(input, output, session) {
         totalCostYear = ifelse(is.na(totalCostYear), 0, totalCostYear)
       ) %>%
       # Remove rows where all cost fields are zero
-      filter(rowSums(select(., purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)) != 0)
+      filter(rowSums(select(., purchasePrice, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)) != 0)
     
     
     return(cost_data)
@@ -481,15 +527,17 @@ server <- function(input, output, session) {
         rename(
           "SO short name" = so_short_name,
           "Method type" = type,
-          "Purchase (per year)" = purchaseCostYear,
+          "Capital value of equipment" = purchasePrice,
+          "Replacement costs of equipment" = purchaseCostYear,
           "Maintenance (per year)" = maintenanceCostYear,
           "Sampling (per year)" = samplingCostYear,
           "Lab analysis (per year)" = labAnalysisCostYear,
           "Total cost (per year)" = totalCostYear,
           "Person days (per year)" = totalHumanLabor
         ),
+      # container = sketch, # fix on the top
       options = list(
-        pageLength = 68,
+        pageLength = 100,
         columnDefs = list(
           list(width = "500px", targets = c(0)),
           list(width = "60px", targets = c(1))
@@ -500,35 +548,27 @@ server <- function(input, output, session) {
       rownames = FALSE,
       selection = "none" # removing the option to highlight rows on the table
     ) %>%
+      formatStyle(
+        "Method type",
+        fontWeight = styleEqual("prime", "bold") # Make it font bold for 'prime'
+      ) %>%
       formatCurrency(
         c(
-          "Purchase (per year)", "Maintenance (per year)",
-          "Sampling (per year)", "Lab analysis (per year)",
-          "Total cost (per year)"
+          "Capital value of equipment", "Replacement costs of equipment",
+          "Maintenance (per year)", "Sampling (per year)",
+          "Lab analysis (per year)", "Total cost (per year)"
         ),
         currency = "€"
       ) %>%
       # adding the colored bars on the table
-      formatStyle("Total cost (per year)",
-                  background = styleColorBar(range(final_data$totalCostYear), "#F26522"),
+      formatStyle("Capital value of equipment",
+                  background = styleColorBar(range(final_data$purchasePrice), color1),
                   backgroundSize = "100% 100%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center"
       ) %>%
-      formatStyle("Lab analysis (per year)",
-                  background = styleColorBar(range(final_data$labAnalysisCostYear), "#F26522"),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
-      ) %>%
-      formatStyle("Person days (per year)",
-                  background = styleColorBar(range(final_data$totalHumanLabor), color1),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
-      ) %>%
-      formatStyle("Sampling (per year)",
-                  background = styleColorBar(range(final_data$samplingCostYear), "#F26522"),
+      formatStyle("Replacement costs of equipment",
+                  background = styleColorBar(range(final_data$purchaseCostYear), "#F26522"),
                   backgroundSize = "100% 100%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center"
@@ -539,8 +579,26 @@ server <- function(input, output, session) {
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center"
       ) %>%
-      formatStyle("Purchase (per year)",
-                  background = styleColorBar(range(final_data$purchaseCostYear), "#F26522"),
+      formatStyle("Sampling (per year)",
+                  background = styleColorBar(range(final_data$samplingCostYear), "#F26522"),
+                  backgroundSize = "100% 100%",
+                  backgroundRepeat = "no-repeat",
+                  backgroundPosition = "center"
+      ) %>%
+      formatStyle("Lab analysis (per year)",
+                  background = styleColorBar(range(final_data$labAnalysisCostYear), "#F26522"),
+                  backgroundSize = "100% 100%",
+                  backgroundRepeat = "no-repeat",
+                  backgroundPosition = "center"
+      ) %>%
+      formatStyle("Total cost (per year)",
+                  background = styleColorBar(range(final_data$totalCostYear), "#F26522"),
+                  backgroundSize = "100% 100%",
+                  backgroundRepeat = "no-repeat",
+                  backgroundPosition = "center"
+      ) %>%
+      formatStyle("Person days (per year)",
+                  background = styleColorBar(range(final_data$totalHumanLabor), color1),
                   backgroundSize = "100% 100%",
                   backgroundRepeat = "no-repeat",
                   backgroundPosition = "center"
@@ -550,10 +608,11 @@ server <- function(input, output, session) {
         "SO short name",
         target = "row",
         backgroundColor = styleEqual("Total", "#F26522"),
+        backgroundSize = "100% 100%",
+        fontWeight = styleEqual("Total", "bold"), # Make it font bold for 'Total'
         color = styleEqual("Total", "white")
       )
   })
-  
   
   # DownloadHandler for the cost calculations
   output$downloadCosts <- downloadHandler(
@@ -587,7 +646,8 @@ server <- function(input, output, session) {
         rename(
           "SO short name" = so_short_name,
           "Method type" = type,
-          "Purchase (per year)" = purchaseCostYear,
+          "Capital value of equipment" = purchasePrice,
+          "Replacement costs of equipment" = purchaseCostYear,
           "Maintenance (per year)" = maintenanceCostYear,
           "Sampling (per year)" = samplingCostYear,
           "Lab analysis (per year)" = labAnalysisCostYear,
@@ -844,9 +904,9 @@ server <- function(input, output, session) {
       total_costs <- cost_data %>%
         summarise(sum(totalCostYear)) %>%
         pull()
-      paste("Cost: €", formatC(total_costs, format = "f", big.mark = ",", digits = 2), sep = "")
+      paste("Annual cost: €", formatC(total_costs, format = "f", big.mark = ",", digits = 2), sep = "")
     } else {
-      "Cost: €0"
+      "Annual cost: €0"
     }
   })
   
@@ -857,11 +917,25 @@ server <- function(input, output, session) {
       total_human_labor <- cost_data %>%
         summarise(sum(totalHumanLabor)) %>%
         pull()
-      paste("Labor (days per year):", formatC(total_human_labor, format = "f", big.mark = ",", digits = 2))
+      paste("Labor (person days per year):", formatC(total_human_labor, format = "f", big.mark = ",", digits = 2))
     } else {
-      "Labor (days per year): 0"
+      "Labor (person days per year): 0"
     }
   })
+  
+  # display the upfront purchase costs
+  output$UpfrontPurchaseCosts <- renderText({
+    cost_data <- cost_calculated_data()
+    if (nrow(cost_data) > 0) {
+      upfront_cost <- cost_data %>%
+        summarise(sum(purchasePrice)) %>%
+        pull()
+      paste("Capital value of equipment: €", formatC(upfront_cost, format = "f", big.mark = ",", digits = 2), sep = "")
+    } else {
+      "Capital value of equipment: €0"
+    }
+  })
+  
 }
 
 
