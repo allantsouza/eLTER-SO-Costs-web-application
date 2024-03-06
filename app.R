@@ -7,7 +7,9 @@ datasetCosts <- read_csv("./data/eLTER-SO_costs-V18_1.csv")
 
 # changing the name of the variable
 datasetCosts <- datasetCosts %>%
-  rename(type = method)
+  rename(type = method) %>% 
+  # removing the SOHYD_065 as requested by Steffen Zacharias
+  filter(!code == "SOHYD_065")
 
 ## file with the info on the SOs' spheres and method types
 dataset <- readxl::read_excel("./data/SO-Methods-Costs-selection.xlsx")
