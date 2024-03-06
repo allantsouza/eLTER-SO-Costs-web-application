@@ -48,25 +48,6 @@ sphere_colors <- c(
 # creating a fill scale
 scale_fill_elter <- function(...) scale_fill_manual(values = c(color1, color2, color3, color4, color5), ...)
 
-# adding pop-up text for the cost table
-# sketch = htmltools::withTags(
-#   table(
-#     class = "display",
-#     thead(
-#       tr(th("SO short name", id = "header-SO"),
-#          th("Method type"),
-#          th("Capital value of equipment", id = "header-equipment"),
-#          th("Replacement costs of equipment"),
-#          th("Maintenance (per year)"),
-#          th("Sampling (per year)"),
-#          th("Lab analysis (per year)"),
-#          th("Total cost (per year)"),
-#          th("Person days (per year)")
-#       )
-#     )
-#   )
-# )
-
 # Custom functions
 costs_elter <- function(dataset, cat, hab) {
   dataset %>%
@@ -175,32 +156,47 @@ ui <- fluidPage(
     # Add the new "Read Me" tab here
     tabPanel(
       "Read me",
-      tags$h1("Welcome"),
-      tags$p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites.")),
-      tags$h2("Features"),
-      tags$ul(
-        tags$li(HTML("<b>Selecting parameters</b>")),
-        tags$ul(
-          tags$li(HTML("Begin by choosing the site category, habitat and spheres of specialization of your eLTER site on the <b>Set up</b> tab to tailor the SOs list to your specific needs."))
+      fluidRow(
+        column(7,
+               tags$h1("Welcome"),
+               tags$p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites.")),
+               tags$h2("Features"),
+               tags$ul(
+                 tags$li(HTML("<b>Selecting parameters</b>")),
+                 tags$ul(
+                   tags$li(HTML("Begin by choosing the site category, habitat and spheres of specialization of your eLTER site on the <b>Set up</b> tab to tailor the SOs list to your specific needs."))
+                 ),
+                 tags$li(HTML("<b>Customizing your SO list</b>")),
+                 tags$ul(
+                   tags$li(HTML("Uncheck any SO that your site has already covered by other means on the <i>side panel</i> of the <b>Set up</b> tab."))
+                 ),
+                 tags$li(HTML("<b>Costs calculations</b>")),
+                 tags$ul(
+                   tags$li(HTML("Navigate to the <b>SO costs</b> tab to view a detailed breakdown of annual costs for running the selected SOs at your eLTER site. This includes purchase, maintenance, sampling, lab analysis costs, and the total human labor involved."))
+                 ),
+                 tags$li(HTML("<b>Informative visualizations</b>")),
+                 tags$ul(
+                   tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
+                 )
+               ),
+               tags$h2("Accessing the source code"),
+               tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-costs-App' target = '_blank'> <b>GitHub</b></a>.")),
+               tags$h2("Disclaimer"),
+               tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
         ),
-        tags$li(HTML("<b>Customizing your SO list</b>")),
-        tags$ul(
-          tags$li(HTML("Uncheck any SO that your site has already covered by other means on the <i>side panel</i> of the <b>Set up</b> tab."))
-        ),
-        tags$li(HTML("<b>Costs calculations</b>")),
-        tags$ul(
-          tags$li(HTML("Navigate to the <b>SO costs</b> tab to view a detailed breakdown of annual costs for running the selected SOs at your eLTER site. This includes purchase, maintenance, sampling, lab analysis costs, and the total human labor involved."))
-        ),
-        tags$li(HTML("<b>Informative visualizations</b>")),
-        tags$ul(
-          tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
+        column(5,
+               # Creating a card for the image
+               div(class = "card rounded-lg",
+                   div(class = "card-body",
+                       img(src = "landingPagePicture.jpg", class = "img-fluid", alt = "Responsive image", style = "max-width: 100%; height: auto;"),
+                       tags$h6(HTML("<i>Photo: Juho Aalto.</i>"))
+                   )
+               )
         )
-      ),
-      tags$h2("Accessing the source code"),
-      tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-costs-App' target = '_blank'> <b>GitHub</b></a>.")),
-      tags$h2("Disclaimer"),
-      tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
+      )
+      
     ),
+    
     tabPanel(
       "Set up",
       sidebarLayout(
@@ -942,6 +938,7 @@ server <- function(input, output, session) {
   })
   
 }
+
 
 # run the app
 shinyApp(ui, server)
