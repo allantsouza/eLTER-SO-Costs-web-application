@@ -1,5 +1,10 @@
 # libraries
-pacman::p_load("shiny", "shinyjs", "shinyBS", "shinyWidgets", "DT", "readxl", "writexl", "tidyverse", "htmltools")
+pacman::p_load(
+  "shiny", "shinyjs", "shinyBS", 
+  "shinyWidgets", "DT", "readxl", 
+  "writexl", "tidyverse", "htmltools",
+  "bslib"
+)
 
 # Read the data from the files at the start
 ## file with the SO costs
@@ -129,8 +134,9 @@ SO_cost <- function(input_code, input_type) {
 ui <- fluidPage(
   titlePanel(div(
     style = "text-align: center;",
-    img(src = "elter_logo.jpg", height = "75px")
-  )),
+    tags$a(href = "https://elter-ri.eu/", target = "_blank",
+           img(src = "elter_logo.jpg", height = "75px")
+    ))),
   tags$head(
     tags$style(HTML("
                           .tabbable > .nav > li[class=active] > a { background-color: #F26522;  color:white}
@@ -148,57 +154,79 @@ ui <- fluidPage(
     h1 { color: #0073C2; }
     h2 { color: #0073C2; }
     h3 { color: #0073C2; }
-    h4 { color: #0073C2; }
+    h4 { color: #000000; }
     "))
   ),
   tabsetPanel(
     
     # Add the new "Read Me" tab here
     tabPanel(
-      "Read me",
+      HTML('Info <i class="fas fa-info-circle"></i>'),
       fluidRow(
-        column(7,
-               tags$h1("Welcome"),
-               tags$p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites.")),
-               tags$h2("Features"),
-               tags$ul(
-                 tags$li(HTML("<b>Selecting parameters</b>")),
-                 tags$ul(
-                   tags$li(HTML("Begin by choosing the site category, habitat and spheres of specialization of your eLTER site on the <b>Set up</b> tab to tailor the SOs list to your specific needs."))
-                 ),
-                 tags$li(HTML("<b>Customizing your SO list</b>")),
-                 tags$ul(
-                   tags$li(HTML("Uncheck any SO that your site has already covered by other means on the <i>side panel</i> of the <b>Set up</b> tab."))
-                 ),
-                 tags$li(HTML("<b>Costs calculations</b>")),
-                 tags$ul(
-                   tags$li(HTML("Navigate to the <b>SO costs</b> tab to view a detailed breakdown of annual costs for running the selected SOs at your eLTER site. This includes purchase, maintenance, sampling, lab analysis costs, and the total human labor involved."))
-                 ),
-                 tags$li(HTML("<b>Informative visualizations</b>")),
-                 tags$ul(
-                   tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
-                 )
-               ),
-               tags$h2("Accessing the source code"),
-               tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-costs-App' target = '_blank'> <b>GitHub</b></a>.")),
-               tags$h2("Disclaimer"),
-               tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
+        column(6,
+               card(fill = FALSE,
+                    max_height = 1000, 
+                    card_body(#class = "lead container",
+                      border_radius = "all",
+                      #border_radius = 20,
+                      width = 1000,
+                      fillable = FALSE, 
+                      #gap = 50, 
+                      fill = FALSE,
+                      plotOutput("id", width = "100%", height = "100%"),
+                      class = "align-items-center",
+                      HTML("<h1>Welcome</h1>"),
+                      #tags$p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites.")),
+                      p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites.")),
+                      # tags$h2("Features"),
+                      HTML("<h2>Features</h2>"),
+                      tags$ul(
+                        tags$li(HTML("<b>Selecting parameters</b>")),
+                        tags$ul(
+                          tags$li(HTML("Begin by choosing the site category, habitat and spheres of specialization of your eLTER site on the <b>Set up</b> tab to tailor the SOs list to your specific needs."))
+                        ),
+                        tags$li(HTML("<b>Customizing your SO list</b>")),
+                        tags$ul(
+                          tags$li(HTML("Uncheck any SO that your site has already covered by other means on the <i>side panel</i> of the <b>Set up</b> tab."))
+                        ),
+                        tags$li(HTML("<b>Costs calculations</b>")),
+                        tags$ul(
+                          tags$li(HTML("Navigate to the <b>SO costs</b> tab to view a detailed breakdown of annual costs for running the selected SOs at your eLTER site. This includes purchase, maintenance, sampling, lab analysis costs, and the total human labor involved."))
+                        ),
+                        tags$li(HTML("<b>Informative visualizations</b>")),
+                        tags$ul(
+                          tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
+                        )
+                      ),
+                      tags$h2("Accessing the source code"),
+                      tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-costs-App' target = '_blank'> <b>GitHub</b></a>.")),
+                      tags$h2("Disclaimer"),
+                      tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
+                    )
+                    
+               )
         ),
-        column(5,
+        
+        column(6,
                # Creating a card for the image
                div(class = "card rounded-lg",
                    div(class = "card-body",
-                       img(src = "landingPagePicture.jpg", class = "img-fluid", alt = "Responsive image", style = "max-width: 100%; height: auto;"),
-                       tags$h6(HTML("<i>Photo: Juho Aalto.</i>"))
+                       img(src = "landingPagePicture2.jpg", 
+                           class = "img-fluid", alt = "Responsive image", 
+                           style = "max-width: 100%; height: auto; padding:5px; background-color:#F1F1F1;"),
+                       
+                       tags$h6(HTML("<i>Photo: Juho Aalto.</i>"), style = "padding:5px; text-align: right;")
                    )
                )
         )
+        
+        
       )
-      
+      #)
     ),
     
     tabPanel(
-      "Set up",
+      HTML('Set up <i class="fa-solid fa-gears"></i>'),
       sidebarLayout(
         sidebarPanel(
           h2("Select parameters"),
@@ -221,7 +249,7 @@ ui <- fluidPage(
       )
     ),
     tabPanel(
-      "SO costs",
+      HTML('SO costs <i class="fa-solid fa-square-poll-horizontal"></i>'),
       fluidPage(
         fluidRow(
           column(
