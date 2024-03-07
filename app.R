@@ -1,23 +1,26 @@
-# libraries
-pacman::p_load(
-  "shiny", "shinyjs", "shinyBS", 
-  "shinyWidgets", "DT", "readxl", 
-  "writexl", "tidyverse", "htmltools",
-  "bslib"
-)
+# libraries ----
+pacman::p_load("shiny", "shinyjs", "shinyBS",
+               "shinyWidgets", "DT", "readxl",
+               "writexl", "tidyverse", "htmltools",
+               "bslib")
 
-# Read the data from the files at the start
+# Read the data from the files ----
 ## file with the SO costs
 datasetCosts <- read_csv("./data/eLTER-SO_costs-V18_1.csv")
 
-# changing the name of the variable
+# Fixing some errors in the dataset before making it available for the app
 datasetCosts <- datasetCosts %>%
-  rename(type = method) %>% 
+  # renaming terms
+  rename(type = method) %>%
   # removing the SOHYD_065 as requested by Steffen Zacharias
-  filter(!code == "SOHYD_065") %>% 
+  filter(!code == "SOHYD_065") %>%
   # fixing the issue on the flip information on the so_short_name from SOSOC_030 and SOSOC_031
-  mutate(so_short_name = replace(so_short_name, code == "SOSOC_030", "Land-based income (SOSOC_030)")) %>% 
-  mutate(so_short_name = replace(so_short_name, code == "SOSOC_031", "Yield (SOSOC_031)")) 
+  mutate(so_short_name = replace(so_short_name,
+                                 code == "SOSOC_030",
+                                 "Land-based income (SOSOC_030)")) %>%
+  mutate(so_short_name = replace(so_short_name,
+                                 code == "SOSOC_031",
+                                 "Yield (SOSOC_031)"))
 
 ## file with the info on the SOs' spheres and method types
 dataset <- readxl::read_excel("./data/SO-Methods-Costs-selection.xlsx")
@@ -33,8 +36,7 @@ codes_coding <- datasetCosts %>%
 dataset <- inner_join(dataset, codes_coding) %>%
   relocate(so_short_name, .after = code) # reorganizing the order of the terms
 
-# Custom ggplot2 eLTER theme
-# Defining custom colors
+# Custom eLTER colors ----
 color1 <- "#ED9632"
 color2 <- "#0879C0"
 color3 <- "#40907A"
@@ -50,10 +52,15 @@ sphere_colors <- c(
   "Sociosphere" = color1
 )
 
-# creating a fill scale
-scale_fill_elter <- function(...) scale_fill_manual(values = c(color1, color2, color3, color4, color5), ...)
+# creating a fill scale function for the plots
+scale_fill_elter <- function(...) scale_fill_manual(values =
+                                                      c(color1,
+                                                        color2,
+                                                        color3,
+                                                        color4,
+                                                        color5), ...)
 
-# Custom functions
+# Custom functions ----
 costs_elter <- function(dataset, cat, hab) {
   dataset %>%
     filter(category == cat & habitat == hab & !is.na(type) == TRUE) %>%
@@ -124,14 +131,28 @@ SO_cost <- function(input_code, input_type) {
       totalHumanLabor = round(totalHumanLabor, 2)
     ) %>%
     # total cost
-    mutate(totalCostYear = sum(purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, na.rm = T)) %>%
-    dplyr::select(code, type, purchasePrice, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)
+    mutate(totalCostYear = sum(purchaseCostYear, maintenanceCostYear,
+                               samplingCostYear, labAnalysisCostYear,
+                               na.rm = T)) %>%
+    dplyr::select(code, type, purchasePrice, purchaseCostYear,
+                  maintenanceCostYear, samplingCostYear, labAnalysisCostYear,
+                  totalHumanLabor, totalCostYear)
   
   return(results)
 }
 
-# Shiny app UI
+# Shiny app UI ----
 ui <- fluidPage(
+  # Specifying the title shown in the browser
+  tags$head(
+    tags$title("eLTER SO Cost App")
+  ),
+  
+  # Specifying the favicon
+  tags$head(
+    tags$link(rel = "shortcut icon", type = "image/png", href = "elter_Logo.png")
+  ),
+  
   titlePanel(div(
     style = "text-align: center;",
     tags$a(href = "https://elter-ri.eu/", target = "_blank",
@@ -157,9 +178,10 @@ ui <- fluidPage(
     h4 { color: #000000; }
     "))
   ),
+  
   tabsetPanel(
     
-    # Add the new "Read Me" tab here
+    # Adding the Info tab
     tabPanel(
       HTML('Info <i class="fas fa-info-circle"></i>'),
       fluidRow(
@@ -225,6 +247,7 @@ ui <- fluidPage(
       #)
     ),
     
+    # Adding the Set up tab
     tabPanel(
       HTML('Set up <i class="fa-solid fa-gears"></i>'),
       sidebarLayout(
@@ -248,6 +271,8 @@ ui <- fluidPage(
         )
       )
     ),
+    
+    # Adding the SO costs tab
     tabPanel(
       HTML('SO costs <i class="fa-solid fa-square-poll-horizontal"></i>'),
       fluidPage(
@@ -322,6 +347,7 @@ ui <- fluidPage(
   )
 )
 
+# Shiny app server ----
 server <- function(input, output, session) {
   # Render the table with unique combinations of sphere, code, and standard_observation
   output$completeTable <- renderDT({
@@ -354,14 +380,37 @@ server <- function(input, output, session) {
     # Prepare choices as named vector, names are displayed, values are sent to server
     choices <- setNames(sorted_data$code, sorted_data$so_short_name)
     
-    div(
-      class = "scrollable-checkbox",
-      checkboxGroupInput("selectedCodes", "Uncheck the SO that are not needed for your site (i.e. cost already covered by another source)",
-                         choices = choices,
-                         selected = sorted_data$code
-      )
+    # Use pickerInput instead of checkboxGroupInput
+    pickerInput(
+      inputId = "selectedCodes",
+      label = "Below, uncheck the SO that are not needed for your site (i.e. cost already covered by another source)",
+      choices = choices,
+      selected = sorted_data$code,
+      multiple = TRUE, # Allow multiple selections
+      options = list(`actions-box` = TRUE) # Enable actions box for select/deselect all
+      # `style` = "btn-info" # Use a Bootstrap button style, you can choose other styles as needed
     )
   })
+  
+  # output$codeSelect <- renderUI({
+  #   req(input$cat, input$hab, input$sphere1, input$sphere2)
+  #   data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2))
+  # 
+  #   # Sort so_short_names alphabetically
+  #   sorted_data <- data %>%
+  #     arrange(sphere, code)
+  # 
+  #   # Prepare choices as named vector, names are displayed, values are sent to server
+  #   choices <- setNames(sorted_data$code, sorted_data$so_short_name)
+  # 
+  #   div(
+  #     class = "scrollable-checkbox",
+  #     checkboxGroupInput("selectedCodes", "Uncheck the SO that are not needed for your site (i.e. cost already covered by another source)",
+  #       choices = choices,
+  #       selected = sorted_data$code
+  #     )
+  #   )
+  # })
   
   observeEvent(input$cat, {
     if (input$cat == 2) {
@@ -392,7 +441,8 @@ server <- function(input, output, session) {
     cost_data <- cost_calculated_data()
     if (nrow(cost_data) > 0) {
       upfront_cost <- sum(cost_data$purchasePrice, na.rm = TRUE)
-      paste("Upfront purchase cost: €", format(upfront_cost, big.mark = ",", decimal.mark = ".", digits = 2))
+      paste("Upfront purchase cost: €", format(upfront_cost, big.mark = ",", 
+                                               decimal.mark = ".", digits = 2))
     } else {
       "No costs calculated yet."
     }
