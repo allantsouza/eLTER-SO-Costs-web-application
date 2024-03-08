@@ -1,8 +1,10 @@
 # libraries ----
+remotes::install_github("deepanshu88/summaryBox")
 pacman::p_load("shiny", "shinyjs", "shinyBS",
                "shinyWidgets", "DT", "readxl",
                "writexl", "tidyverse", "htmltools",
                "bslib")
+library("summaryBox")
 
 # Read the data from the files ----
 ## file with the SO costs
@@ -143,6 +145,12 @@ SO_cost <- function(input_code, input_type) {
 
 # Shiny app UI ----
 ui <- fluidPage(
+  # # specifying the primary and secondary colors
+  # theme = bs_theme(
+  #   secondary = "#ED9632", 
+  #   primary = "#0879C0"
+  # ),
+  # 
   # Specifying the title shown in the browser
   tags$head(
     tags$title("eLTER SO Cost App")
@@ -150,7 +158,7 @@ ui <- fluidPage(
   
   # Specifying the favicon
   tags$head(
-    tags$link(rel = "shortcut icon", type = "image/png", href = "elter_Logo.png")
+    tags$link(rel = "shortcut icon", type = "image/png", href = "eLTER_Logo.png")
   ),
   
   titlePanel(div(
@@ -253,7 +261,19 @@ ui <- fluidPage(
       sidebarLayout(
         sidebarPanel(
           h2("Select parameters"),
-          selectInput("cat", "eLTER site category", choices = c(Select = "", c(1, 2))),
+          # selectInput("cat", "eLTER site category", choices = c(Select = "", c(1, 2))),
+          radioGroupButtons(
+            inputId = "cat",
+            label = "eLTER site category", 
+            choices = c("1", "2"),
+            justified = TRUE, 
+            width = "100%",
+            size = "normal",
+            checkIcon = list(
+              yes = icon(class = "fa-solid", "fa-check-to-slot"),
+              no = icon("square")),
+            status = "info"
+          ),
           bsTooltip("cat", "Choose the category of your eLTER site", "right"), # Tooltips
           selectInput("hab", "Site habitat", choices = c(Select = "", unique(dataset$habitat))),
           bsTooltip("hab", "Choose the habitat of your eLTER site", "right"), # Tooltips
@@ -263,7 +283,8 @@ ui <- fluidPage(
           bsTooltip("sphere2", "Choose the sphere of specialization of tour eLTER site. Disabled to category 2 sites.", "right"), # Tooltips
           uiOutput("codeSelect"),
           bsTooltip("codeSelect", "Remove the selection of SOs that are not pertinent in your case.", "right"), # Tooltips
-          downloadButton("download", "Download Table", class = "btn", icon = icon("table")),
+          downloadButton("download", "Download", class = "btn", 
+                         icon = icon(class = "fa-regular", name = "fa-circle-down")),
         ),
         mainPanel(
           h2("List of the standard observations needed in your site"),
@@ -277,69 +298,105 @@ ui <- fluidPage(
       HTML('SO costs <i class="fa-solid fa-square-poll-horizontal"></i>'),
       fluidPage(
         fluidRow(
-          column(
-            6,
-            h2("Selected parameters"),
-            textOutput("selectedCat"),
-            textOutput("selectedHab"),
-            textOutput("selectedSphere1"),
-            textOutput("selectedSphere2")
+          column(12,
+                 summaryBox2(title = "Selected", "Parameters", width = 6,
+                             icon = "fa-solid fa-clipboard-list", style = "info"),
+                 summaryBox2(title = "Estimated", "Costs", width = 6,
+                             icon = "fa-solid fa-euro-sign", style = "info")
+          )
+        ),
+        fluidRow(
+          column(6,
+                 h4(textOutput("selectedCat"), style = "margin-left: 25px;"),
+                 h4(textOutput("selectedHab"), style = "margin-left: 25px;"),
+                 h4(textOutput("selectedSphere1"), style = "margin-left: 25px;"),
+                 h4(textOutput("selectedSphere2"), style = "margin-left: 25px;")
+          ),
+          
+          column(6, 
+                 h4(textOutput("totalCostsDisplay"), style = "margin-left: 15px;"),
+                 bsTooltip("totalCostsDisplay", "This value sums the annual costs of replacement costs of equipment, maintenance, sampling, and lab analysis. The value used for the purchase costs takes into account the upgrade interval of the equipment (formula: purchase price / upgrade interval).", "left"), # Tooltips
+                 h4(textOutput("UpfrontPurchaseCosts"), style = "margin-left: 15px;"),
+                 bsTooltip("UpfrontPurchaseCosts", "This value considers the total initial purchase costs and should be used to estimate the costs of establishing an eLTER site from the beginning.", "left"), # Tooltips
+                 h4(textOutput("totalHumanLaborDisplay"), style = "margin-left: 15px;"),
+                 bsTooltip("totalHumanLaborDisplay", "Warning: The labor costs are not included in the estimated costs.", "left"), # Tooltips
+                 p(HTML("<i>Note: The labor costs are not included in the costs. You must calculate the labor costs based on the labor needed at your site (indicated above) and the salary structure in your institution and/or country. Add this number to the estimated costs presented above to have the final cost for your eLTER site.</i>"),
+                   style = "margin-left: 15px; margin-right: 25px; text-align: justify;")
+          )
+        ),
+        # plots
+        br(), br(), # Double line break as a spacer
+        
+        fluidRow(
+          column(12,
+                 summaryBox2(title = "Detailed costs", "Running an eLTER site", width = 12,
+                             icon = "fa-solid fa-table-list", style = "info"),
+                 #h2("Detailed information on the annual costs to run an eLTER site"),
+                 h4(HTML("This table shows the costs (in €) of the standard observations (SOs) needed to operate the eLTER site with the conditions selected at the <b>Set up</b> tab. The total cost is calculated by summing the different costs types (purchase, maintenance, sampling and lab analysis). Additionally, the table shows the human labor needed to operate the eLTER site, expressed as number of days needed to perform all tasks related to the specific SOs per year."),
+                    style = "margin-left: 20px; margin-right: 20px; text-align: justify;"),
+                 h5(HTML("<br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs.</i>"),
+                    style = "margin-left: 20px; margin-right: 20px; text-align: justify;"),
+                 br(), br(), # Double line break as a spacer
+                 h5(DTOutput("costTable"), 
+                    style = "margin-left: 25px; margin-right: 25px; text-align: justify;"),
+                 downloadButton("downloadCosts", 
+                                "Download", 
+                                style = "margin-left: 25px; margin-right: 25px; text-align: center;",
+                                icon = icon(class = "fa-regular", name = "fa-circle-down"))
+          )
+        ),
+        br(), br(), # Double line break as a spacer
+        
+        # plots
+        fluidRow(
+          column(12,
+                 summaryBox2(title = "Data Visualization", "Insights", width = 12,
+                             icon = "fa-solid fa-magnifying-glass-chart", style = "info"),
+                 #h2("Data visualization")
+          )
+        ),
+        fluidRow(
+          column(6,
+                 h4("Number of standard observations breakdown by sphere", 
+                    style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+                 h5("This plot illustrates the total number of SOs needed to operate the eLTER site.",
+                    style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+                 h5(plotOutput("updatedBarPlot"), 
+                    style = "margin-left: 25px; margin-right: 25px;"),
+                 downloadButton("downloadPlot", "Download",
+                                style = "margin-left: 20px; margin-right: 20px;",
+                                icon = icon(class = "fa-regular", name = "fa-circle-down")),
+                 br(), br(), # Double line break as a spacer
+                 h4("Annual cost breakdown by type", 
+                    style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+                 h5("This plot depicts the total costs (by type) needed to operate the eLTER site.", 
+                    style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+                 h5(plotOutput("typeCostPlot"), 
+                    style = "margin-left: 25px; margin-right: 25px;"),
+                 downloadButton("downloadTypePlotCosts", "Download",
+                                style = "margin-left: 20px; margin-right: 20px;",
+                                icon = icon(class = "fa-regular", name = "fa-circle-down")),
+                 br(), br(), # Double line break as a spacer
           ),
           column(
             6,
-            h2("Estimated costs"),
-            textOutput("totalCostsDisplay"),
-            bsTooltip("totalCostsDisplay", "This value sums the annual costs of replacement costs of equipment, maintenance, sampling, and lab analysis. The value used for the purchase costs takes into account the upgrade interval of the equipment (formula: purchase price / upgrade interval).", "left"), # Tooltips
-            textOutput("UpfrontPurchaseCosts"),
-            bsTooltip("UpfrontPurchaseCosts", "This value considers the total initial purchase costs and should be used to estimate the costs of establishing an eLTER site from the beginning.", "left"), # Tooltips
-            textOutput("totalHumanLaborDisplay"),
-            bsTooltip("totalHumanLaborDisplay", "Warning: The labor costs are not included in the estimated costs.", "left"), # Tooltips
-            p(HTML("<i>Note: The labor costs are not included in the costs. You must calculate the labor costs based on the labor needed at your site (indicated above) and the salary structure in your institution and/or country. Add this number to the estimated costs presented above to have the final cost for your eLTER site.</i>"))
-          )
-        ),
-        fluidRow(
-          column(
-            12,
-            h2("Detailed information on the annual costs to run an eLTER site"),
-            p(HTML("This table shows the costs (in €) of the standard observations (SOs) needed to operate the eLTER site with the conditions selected at the <b>Set up</b> tab. The total cost is calculated by summing the different costs types (purchase, maintenance, sampling and lab analysis). Additionally, the table shows the human labor needed to operate the eLTER site, expressed as number of days needed to perform all tasks related to the specific SOs per year. <br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs.</i>")),
-            #br(),
-            DTOutput("costTable"),
-            # shinyBS::bsPopover(
-            #   id      = "header-equipment",
-            #   title   = "Capital value of equipment",
-            #   content = "This is an example text"
-            #   ),
-            downloadButton("downloadCosts", "Download: cost estimation", icon = icon("table"))
-          )
-        ),
-        fluidRow(
-          column(
-            12,
-            h2("Data visualization")
-          )
-        ),
-        fluidRow(
-          column(
-            6,
-            h4("Number of standard observations breakdown by sphere", style = "text-align: center;"),
-            p("This plot illustrates the total number of SOs needed to operate the eLTER site.", style = "text-align: center;"),
-            plotOutput("updatedBarPlot"),
-            downloadButton("downloadPlot", "Download: SOs by sphere", icon = icon("chart-simple")),
-            h4("Annual cost breakdown by type", style = "text-align: center;"),
-            p("This plot depicts the total costs (by type) needed to operate the eLTER site.", style = "text-align: center;"),
-            plotOutput("typeCostPlot"),
-            downloadButton("downloadTypePlotCosts", "Download: cost by type", icon = icon("chart-simple")),
-          ),
-          column(
-            6,
-            h4("Annual labor effort by sphere", style = "text-align: center;"),
-            p("This plot depicts the total working days by sphere needed to operate the eLTER site.", style = "text-align: center;"),
-            plotOutput("sphereFTECostPlot"),
-            downloadButton("downloadHumanCostPlot", "Download: labor effort", icon = icon("chart-simple")),
+            h4("Annual labor effort by sphere", 
+               style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+            h5("This plot depicts the total working days by sphere needed to operate the eLTER site.", 
+               style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+            h5(plotOutput("sphereFTECostPlot"),
+               style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+            downloadButton("downloadHumanCostPlot", "Download", 
+                           icon = icon(class = "fa-regular", name = "fa-circle-down")),
+            br(), br(), # Double line break as a spacer
             h4("Annual cost breakdown by sphere", style = "text-align: center;"),
-            p("This plot illustrates how costs are distributed across different spheres to operate the eLTER site.", style = "text-align: center;"),
-            plotOutput("sphereCostPlot"),
-            downloadButton("downloadSpherePlot", "Download: cost by sphere", icon = icon("chart-simple")),
+            h5("This plot illustrates how costs are distributed across different spheres to operate the eLTER site.",
+               style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+            h5(plotOutput("sphereCostPlot"), style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+            downloadButton("downloadSpherePlot", "Download", 
+                           icon = icon(class = "fa-regular", name = "fa-circle-down")),
+            br(), br(), # Double line break as a spacer
+            
           )
         )
       )
@@ -623,7 +680,7 @@ server <- function(input, output, session) {
         ),
         autoWidth = TRUE
       ),
-      filter = "top", # Enable filtering inputs at the top of the table
+      # filter = "top", # Enable filtering inputs at the top of the table
       rownames = FALSE,
       selection = "none" # removing the option to highlight rows on the table
     ) %>%
