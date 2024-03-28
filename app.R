@@ -235,7 +235,7 @@ ui <- fluidPage(
                 ),
                 tags$li(HTML("<b>Exporting the costs calculations</b>")),
                 tags$ul(
-                  tags$li(HTML("On the <b>SO costs</b> tab navigate to the bottom of the table and add the name of your eLTER site and download your results using the download button. This file will be needed to complete the SO Cost survey."))
+                  tags$li(HTML("On the <b>SO costs</b> tab navigate to the bottom of the table and add the name of your eLTER site and download your results using the download button."))
                 ),
                 tags$li(HTML("<b>Informative visualizations</b>")),
                 tags$ul(
