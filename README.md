@@ -1,17 +1,48 @@
-# [eLTER](https://elter-ri.eu/) Cost Calculation Tool
+# eLTER SO Costs
 
-![](./www/elter_logo.jpg)
+![](./www/eLTER-SO-costs_application-logo.jpg)
 
-## Introduction
+## Authors
+- <b>Name:</b> Allan T. Souza
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
+  - <b>E-mail:</b> allan.souza@helsinki.fi / allantsouza@gmail.com
+  - <b>ORCID:</b> [0000-0002-1851-681X](https://orcid.org/0000-0002-1851-681X)
 
-Welcome to the repository for the [eLTER](https://elter-ri.eu/) Cost Calculation Tool, a specialized resource designed for the [eLTER (European Long-Term Ecosystem Research)](https://elter-ri.eu/) network. This tool is designed to assist in estimating the costs associated with implementing standard observations across various [eLTER](https://elter-ri.eu/) sites.
+- <b>Name:</b> Syed Ashraful Alam
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
+  - <b>E-mail:</b> ashraful.alam@helsinki.fi
+  - <b>ORCID:</b> [0000-0001-9870-1494](https://orcid.org/0000-0001-9870-1494)
 
-The essence of this tool lies in its ability to adapt calculations based on unique site-specific criteria, ensuring accurate and tailored cost estimations. Key factors taken into consideration include the site category, the range of habitats present, spheres of specialization, and the potential co-location with other Research Infrastructures, which cover the costs of specific standard observations.
+- <b>Name:</b> Terhi Rasilo
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
+  - <b>E-mail:</b> terhi.rasilo@helsinki.fi
+  - <b>ORCID:</b> [0000-0002-3502-4040](https://orcid.org/0000-0002-3502-4040)
+  
+- <b>Name:</b> Steffen Zacharias
+  - <b>Affiliation:</b> Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany <img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" width="20px" height="20px">
+  - <b> Institution ROR:</b> [https://ror.org/000h6jb29](https://ror.org/000h6jb29)
+  - <b>E-mail:</b> steffen.zacharias@ufz.de
+  - <b>ORCID:</b> [0000-0002-7825-0072](https://orcid.org/0000-0002-7825-0072)
 
-Our goal is to provide a user-friendly, efficient, and reliable means for [eLTER](https://elter-ri.eu/) researchers and administrators to plan and allocate resources effectively. Through this tool, we aim to support the [eLTER](https://elter-ri.eu/) community in advancing ecological and environmental research across Europe.
+- <b>Name:</b> Jaana Bäck
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
+  - <b>E-mail:</b> jaana.back@helsinki.fi
+  - <b>ORCID:</b> [0000-0002-6107-667X](https://orcid.org/0000-0002-6107-667X)
 
-Feel free to explore, contribute, and utilize this tool for your [eLTER](https://elter-ri.eu/) site planning and management needs.
+## Use license
+- [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
+## Aims :dart:
+
+This repository hosts the information used to build the [eLTER](https://elter-ri.eu/) SO Costs web application. This tool is a specialized resource designed to assist the eLTER (European Long-Term Ecosystem Research) community in estimating the costs associated with upgrading and operating [standard observations](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) across various eLTER sites.
+
+The essence of this tool lies in its ability to adapt calculations based on unique site-specific criteria, ensuring tailored cost estimations. Key factors taken into consideration include the site category, the habitats, the focus spheres, and the potential co-location with other Research Infrastructures, which cover the costs of specific standard observations.
+
+The goal of this tool is to provide a user-friendly, efficient, and reliable means for the eLTER community to plan and allocate resources effectively.
 
 ## Development in R and [`Shiny`](https://shiny.posit.co/)
 This repository is dedicated to the development of a tool coded entirely in the R programming language, with a user interface developed using R [`Shiny`](https://shiny.posit.co/). R [`Shiny`](https://shiny.posit.co/) is a powerful framework for building interactive web applications directly from R scripts, making it an ideal choice for creating accessible and user-friendly tools.
