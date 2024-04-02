@@ -106,7 +106,7 @@ renv::restore()
   - After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
 
 ## Related resources :paperclips:
-- [Zacharias, S. et al. (2021). Discussion paper on eLTER Standard Observations (eLTER SOs). Deliverable D3.1 EU Horizon 2020 eLTER PLUS Project, Grant agreement No. 871128.](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) 
+- [Zacharias, S. et al. (2021).](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) Discussion paper on eLTER Standard Observations (eLTER SOs). Deliverable D3.1 EU Horizon 2020 eLTER PLUS Project, Grant agreement No. 871128. 
 
 ## [CRediT](https://onlinelibrary.wiley.com/doi/epdf/10.1002/leap.1210) author statement :man_scientist: :woman_scientist:
 
@@ -118,5 +118,8 @@ renv::restore()
 | Steffen Zacharias   | Conceptualization, Data Curation, Investigation, Supervision, Validation, Writing - Review & Editing. |
 | Jaana Bäck          | Conceptualization, Data Curation, Funding Acquisition, Investigation,  Project Administration, Resources, Supervision, Validation, Writing - Review & Editing. |
 
-## Citation
+## Acknowledgements :bank: :eu:
+This work has been supported by the European Union's H2020 (grant agreement No 871128 - eLTER PLUS). 
+
+## Citation :memo:
 Souza, AT., Alam, SA., Rasilo, T., Zacharias, S., Bäck, J. (2024). eLTER SO Costs web application.
