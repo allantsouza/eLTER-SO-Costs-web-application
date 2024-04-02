@@ -30,7 +30,13 @@ datasetCosts <- datasetCosts %>%
     "Yield (SOSOC_031)"
   )) %>%
   # removing the sociosphere info from the app (as requested by Jaana Bäck on 2024-03-26
-  filter(!sphere == "Sociosphere")
+  filter(!sphere == "Sociosphere") %>% 
+  # changing the upgradeInterval from SOHYD_168 to 10 years (requested by S. Zacharias on 2024-03-19)
+  mutate(upgradeInterval = replace(
+    upgradeInterval,
+    code == "SOHYD_168",
+    10
+  ))
 
 ## file with the info on the SOs' spheres and method types
 dataset <- readxl::read_excel("./data/SO-Methods-Costs-selection.xlsx")
@@ -218,20 +224,20 @@ ui <- fluidPage(
               plotOutput("id", width = "100%", height = "100%"),
               class = "align-items-center",
               HTML("<h1>Welcome</h1>"),
-              p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to implement them at their sites. The outputs of this tool are subjected to changes, as modifications in the inputs might occur in the future based on the agreement of eLTER consortium. Additionally, the values presented here might differ slightly from precise calculations of the costs due to different reasons (e.g. differences in management among institutions, different costs associated with the sampling, maintenance, lab analysis and etc.).")),
+              p(HTML("This interactive tool is designed to assist researchers and site managers associated with the <a href = 'https://elter-ri.eu/' target = '_blank'> <b>Integrated European Long-Term Ecosystem, critical zone and socio-ecological research (eLTER)</b></a> network in defining <a href = 'https://vocabs.lter-europe.net/so/en/' target = '_blank'> <b>Standard Observations (SOs)</b></a> and calculating the associated costs to upgrade and operate them at their sites. The outputs of this tool are subjected to changes, as modifications in the inputs might occur in the future based on the agreement of eLTER consortium. Additionally, the values presented here might differ slightly from precise calculations of the costs due to different reasons (e.g. differences in management among institutions, different costs associated with the sampling, maintenance, lab analysis and etc.).")),
               HTML("<h2>Features</h2>"),
               tags$ul(
                 tags$li(HTML("<b>Selecting parameters</b>")),
                 tags$ul(
-                  tags$li(HTML("Begin by choosing the site category, habitat and focus spheres of your eLTER site on the <b>Set up</b> tab to tailor the SOs list to your specific needs."))
+                  tags$li(HTML("Begin by selecting the site category, habitat and focus spheres of your eLTER site on the <b>Set up</b> tab to tailor the SOs list to your specific needs."))
                 ),
                 tags$li(HTML("<b>Customizing your SO list</b>")),
                 tags$ul(
-                  tags$li(HTML("Uncheck any SO that your site has already covered by other means on the <i>side panel</i> of the <b>Set up</b> tab."))
+                  tags$li(HTML("Deselect any SO that your site has already covered on the <i>side panel</i> of the <b>Set up</b> tab."))
                 ),
                 tags$li(HTML("<b>Costs calculations</b>")),
                 tags$ul(
-                  tags$li(HTML("Navigate to the <b>SO costs</b> tab to view a detailed breakdown of annual costs for running the selected SOs at your eLTER site. This includes purchase, maintenance, sampling, lab analysis costs, and the total human labor involved."))
+                  tags$li(HTML("Navigate to the <b>SO costs</b> tab to view a detailed breakdown of costs for running the selected SOs at your eLTER site. This includes purchase, maintenance, sampling, lab analysis costs, and the total human labor involved."))
                 ),
                 tags$li(HTML("<b>Exporting the costs calculations</b>")),
                 tags$ul(
@@ -363,7 +369,7 @@ ui <- fluidPage(
             h4(HTML("This table shows the costs (in €) of the standard observations (SOs) needed to upgrade and operate the eLTER site with the conditions selected at the <b>Set up</b> tab. The total cost is calculated by summing the different costs types (purchase, maintenance, sampling and lab analysis). Additionally, the table shows the human labor needed to operate the eLTER site, expressed as number of days needed to perform all tasks related to the specific SOs per year."),
                style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
             ),
-            h5(HTML("<br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs.</i>"),
+            h5(HTML("<br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs. <br /> Note #3: The SOs from the Sociosphere are not included in this tool.</i>"),
                style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
             ),
             # Double line break as a space
@@ -512,7 +518,7 @@ server <- function(input, output, session) {
     # Using pickerInput
     pickerInput(
       inputId = "selectedCodes",
-      label = "Below, uncheck the SO that are not needed for your site (i.e. cost already covered by another source)",
+      label = "Optionally, deselect the SOs that are not needed for your site (i.e. SOs covered by other means).",
       choices = choices,
       selected = sorted_data$code,
       multiple = TRUE, # allow multiple selections
@@ -592,7 +598,7 @@ server <- function(input, output, session) {
                                "Basic" = "basic"
       )) %>%
       ggplot(aes(x = type, fill = sphere)) +
-      geom_bar(position = "dodge", alpha = 0.8, col = "black") +
+      geom_bar(position = "dodge", col = "black") +
       labs(x = "Type of SO (Standard Observation)", y = "Count", fill = "") +
       coord_flip() +
       scale_fill_manual(values = sphere_colors) +
@@ -907,7 +913,7 @@ server <- function(input, output, session) {
       group_by(costType) %>%
       summarise(euro = sum(amount), .groups = "drop") %>%
       ggplot(aes(x = reorder(costType, euro), y = (euro / 1000), fill = costType)) +
-      geom_bar(stat = "identity", position = position_dodge(), fill = "#226755", col = "black", alpha = 0.8) +
+      geom_bar(stat = "identity", position = position_dodge(), fill = "gray50", col = "black") +
       geom_text(aes(label = round(euro / 1000, 1), vjust = -0.35), col = "gray15", size = 14 / .pt) +
       labs(x = "Cost type", y = "Cost per year in k€") +
       coord_cartesian(clip = "off") +
@@ -996,7 +1002,7 @@ server <- function(input, output, session) {
         group_by(costType) %>%
         summarise(euro = sum(amount), .groups = "drop") %>%
         ggplot(aes(x = reorder(costType, euro), y = (euro / 1000), fill = costType)) +
-        geom_bar(stat = "identity", position = position_dodge(), fill = "#226755", col = "black", alpha = 0.8) +
+        geom_bar(stat = "identity", position = position_dodge(), fill = "gray50", col = "black") +
         geom_text(aes(label = round(euro / 1000, 1), vjust = -0.35), col = "gray15", size = 14 / .pt) +
         labs(x = "Cost type", y = "Cost per year in k€") +
         coord_cartesian(clip = "off") +
