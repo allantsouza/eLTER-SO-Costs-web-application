@@ -22,7 +22,7 @@
   - <b>ORCID:</b> [0000-0002-3502-4040](https://orcid.org/0000-0002-3502-4040)
   
 - <b>Name:</b> Steffen Zacharias
-  - <b>Affiliation:</b> Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany :germany:
+  - <b>Affiliation:</b> Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany :de:
   - <b> Institution ROR:</b> [https://ror.org/000h6jb29](https://ror.org/000h6jb29)
   - <b>E-mail:</b> steffen.zacharias@ufz.de
   - <b>ORCID:</b> [0000-0002-7825-0072](https://orcid.org/0000-0002-7825-0072)
