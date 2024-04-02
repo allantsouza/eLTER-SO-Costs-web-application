@@ -69,7 +69,7 @@ The input data was built based on the agreement of the eLTER community regarding
 └── renv.lock # Lock file to capture the state of the R environment
 ```
 
-## Development in R and `Shiny` :man_technologist:
+## Development :man_technologist:
 [![](https://img.shields.io/badge/Shiny-shinyapps.io-blue?style=flat&labelColor=white&logo=RStudio&logoColor=blue)](https://shiny.posit.co/)
 
 The web application is coded entirely in the [R programming language](https://www.r-project.org/), with a user interface developed using R [`Shiny`](https://shiny.posit.co/). R `Shiny` is a powerful framework for building interactive web applications directly from R scripts, making it an ideal choice for creating accessible and user-friendly tools.
