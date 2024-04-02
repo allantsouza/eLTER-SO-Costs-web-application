@@ -175,14 +175,14 @@ ui <- fluidPage(
   
   # specifying the favicon for the web browser
   tags$head(
-    tags$link(rel = "shortcut icon", type = "image/png", href = "elter_logomark.png")
+    tags$link(rel = "shortcut icon", type = "image/png", href = "eLTER-SO-costs_elter-logo.png")
   ),
   # specifying the image with the eLTER SO Costs logo
   titlePanel(div(
     style = "text-align: center;",
     tags$a(
       href = "https://elter-ri.eu/", target = "_blank",
-      img(src = "elter logo_SO Costs_logo-03.jpg", height = "75px")
+      img(src = "eLTER-SO-costs_application-logo.jpg", height = "75px")
     )
   )),
   tags$head(
@@ -265,7 +265,7 @@ ui <- fluidPage(
             div(
               class = "card-body",
               img(
-                src = "landingPagePicture2.jpg",
+                src = "eLTER-SO-costs_landing-page-picture.jpg",
                 class = "img-fluid", alt = "Responsive image",
                 style = "max-width: 100%; height: auto; padding:5px; background-color:#F1F1F1;"
               ),
