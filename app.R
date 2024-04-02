@@ -10,7 +10,7 @@ library("summaryBox")
 
 # Read the data from the files ----
 ## file with the SO costs
-datasetCosts <- read_csv("./data/eLTER-SO_costs-V18_1.csv")
+datasetCosts <- read_csv("./data/eLTER-SO-costs_standard-observations-detailed-costs_V18.csv")
 
 # Fixing some errors in the dataset before making it available for the app
 datasetCosts <- datasetCosts %>%
@@ -39,7 +39,7 @@ datasetCosts <- datasetCosts %>%
   ))
 
 ## file with the info on the SOs' spheres and method types
-dataset <- readxl::read_excel("./data/SO-Methods-Costs-selection.xlsx")
+dataset <- readxl::read_excel("./data/eLTER-SO-costs_list-of-standard-observations.xlsx")
 ### Improving user friendliness on the names
 dataset <- dataset %>%
   mutate(habitat = gsub("_", " ", habitat)) %>%
