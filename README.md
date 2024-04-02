@@ -84,34 +84,31 @@ This repository utilizes the [`renv`](https://rstudio.github.io/renv/) package t
 ### Getting started :beginner:
 When you clone or fork this repository for the first time, follow these steps to set up `renv`:
 
-- Install `renv` (if you haven't already):
-You can install `renv` globally in your R setup using:
+- Install `renv` (if you haven't already)
+  - You can install `renv` globally in your R setup using:
 
 ```
 install.packages("renv")
 ```
 
-- Clone the Repository: :arrow_down_small:
-Clone this repository to your local machine as you normally would.
-
-- Launch R: :computer:
-Open an R session and set the working directory to the root of the cloned repository.
-
-- Restore the Environment: :rewind:
-Run the following command in your R console:
+- Clone the repository
+  - Clone this repository to your local machine.
+- Launch R
+  - Open an R session and set the working directory to the root of the cloned repository.
+- Restore the environment
+  - Install all the necessary packages, as specified in the `renv.lock` file, into a project-local library by running the following command in your R console:
 
 ```
 renv::restore()
 ```
 
-This command will install all the necessary packages, as specified in the `renv.lock` file, into a project-local library.
+- Start working
+  - After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
 
-- Start Working: After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
-
-## Related resources
+## Related resources :paperclips:
 - [Zacharias, S. et al. (2021). Discussion paper on eLTER Standard Observations (eLTER SOs). Deliverable D3.1 EU Horizon 2020 eLTER PLUS Project, Grant agreement No. 871128.](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) 
 
-## [CRediT](https://onlinelibrary.wiley.com/doi/epdf/10.1002/leap.1210) author statement
+## [CRediT](https://onlinelibrary.wiley.com/doi/epdf/10.1002/leap.1210) author statement :man_scientist: :woman_scientist:
 
 | Contributor         | Contributions                                                            |
 |---------------------|--------------------------------------------------------------------------|
