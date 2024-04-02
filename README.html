@@ -416,8 +416,8 @@ University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
 1.0</a></li>
 </ul>
 </div>
-<div id="aims-dart" class="section level2">
-<h2>Aims :dart:</h2>
+<div id="context-and-aims-dart" class="section level2">
+<h2>Context and aims :dart:</h2>
 <p>This repository hosts the information used to build the <a href="https://elter-ri.eu/">eLTER</a> SO Costs web application. This
 tool is a specialized resource designed to assist the eLTER (European
 Long-Term Ecosystem Research) community in estimating the costs
@@ -433,56 +433,65 @@ standard observations.</p>
 reliable means for the eLTER community to plan and allocate resources
 effectively.</p>
 </div>
-<div id="file-structure" class="section level2">
-<h2>File structure</h2>
-<p>`eLTER-SO-costs-App/</p>
-<p>├── data # Folder for input data used by the app ├── renv # R
-environment setup with reproducibility in mind ├── www # Folder
-containing web assets like stylesheets and JS scripts ├── .Rprofile # R
-project-specific configuration file ├── .gitignore # Lists files to be
-ignored by version control system ├── LICENSE # The full text of the
-license for the project ├── README.html # Compiled HTML from README.md
-for detailed project information ├── README.md # Markdown text providing
-an overview of the project ├── app.R # The main application script for
-the Shiny web app ├── eLTER-SO-costs-App.Rproj # RStudio project file
-└── renv.lock # Lock file to capture the state of the R environment`</p>
+<div id="input-data-clipboard" class="section level2">
+<h2>Input data :clipboard:</h2>
+<p>The input data was built based on the agreement of the eLTER
+community regarding the standard observations. The data is located at
+the <code>data</code> folder and contains consensus information on the
+target sampling protocols, equipment, as well as estimations on the
+costs associated to upgrade and operate the standard observations.</p>
+</div>
+<div id="structure-of-files-open_file_folder" class="section level2">
+<h2>Structure of files :open_file_folder:</h2>
+<pre class="elter-so-costs-app/"><code>├── data # Folder for input data used by the app
+│ ├── eLTER-SO-costs_list-of-standard-observations.xlsx # Data file in xlsx format
+│ └── eLTER-SO-costs_standard-observations-detailed-costs_V18.csv # Data file in csv format
+├── www # Folder containing web assets
+│ ├── eLTER-SO-costs_landing-page-picture.jpg # Picture for the web application landing page
+│ ├── eLTER-SO-costs_elter-logo.png # eLTER simplified logo in png format
+│ └── eLTER-SO-costs_application-logo.jpg # SO Costs logo in jpg format
+├── app.R # The main application script for the Shiny web app
+├── .Rprofile # R project-specific configuration file
+├── eLTER-SO-costs-App.Rproj # RStudio project file
+├── .gitignore # Lists files to be ignored by version control system
+├── LICENSE # The full text of the license for the project
+├── README.html # Compiled HTML from README.md for detailed project information
+├── README.md # Markdown text providing an overview of the project
+├── renv # R environment setup with reproducibility in mind
+│ └── ... # folders and files by renv to compile the needed information for reproducibility   
+└── renv.lock # Lock file to capture the state of the R environment</code></pre>
 </div>
 <div id="development-in-r-and-shiny" class="section level2">
-<h2>Development in R and <a href="https://shiny.posit.co/"><code>Shiny</code></a></h2>
-<p>This repository is dedicated to the development of a tool coded
-entirely in the R programming language, with a user interface developed
-using R <a href="https://shiny.posit.co/"><code>Shiny</code></a>. R <a href="https://shiny.posit.co/"><code>Shiny</code></a> is a powerful
-framework for building interactive web applications directly from R
-scripts, making it an ideal choice for creating accessible and
-user-friendly tools.</p>
-<p>About the Tool - R-Based: The core logic and functionality of the
-tool are implemented in R, ensuring efficient data processing and
-analysis. - R <a href="https://shiny.posit.co/"><code>Shiny</code></a>
-Interface: The tool features an interactive web interface built with R
-<a href="https://shiny.posit.co/"><code>Shiny</code></a>, enhancing user
-experience and accessibility. - Accessing the Shiny App You can access
-the current version of the <a href="https://shiny.posit.co/"><code>Shiny</code></a> app <a href="https://allantsouza.shinyapps.io/eLTER-SO-costs/">here</a>.</p>
-<div id="future-hosting-on-elter-services" class="section level4">
-<h4>Future Hosting on <a href="https://elter-ri.eu/">eLTER</a>
-Services</h4>
-<p>Upon completion and thorough testing, this tool will be hosted as
-part of the <a href="https://elter-ri.eu/">eLTER</a> services. This
-integration aims to provide seamless access and utility for the <a href="https://elter-ri.eu/">eLTER</a> community. Until then, this
-repository serves as the primary hub for development, where updates,
-enhancements, and bug fixes will be continuously pushed.</p>
+<h2>Development in R and <code>Shiny</code></h2>
+<p>The web application is coded entirely in the <a href="https://www.r-project.org/">R programming language</a>, with a
+user interface developed using R <a href="https://shiny.posit.co/"><code>Shiny</code></a>. R
+<code>Shiny</code> is a powerful framework for building interactive web
+applications directly from R scripts, making it an ideal choice for
+creating accessible and user-friendly tools.</p>
+<div id="deployed-version-of-the-web-application-link" class="section level3">
+<h3>Deployed version of the web application :link:</h3>
+<p>You can access the current version of the <code>Shiny</code> app <a href="https://allantsouza.shinyapps.io/eLTER-SO-costs/">here</a>.</p>
 </div>
-<div id="using-renv-for-reproducible-environments" class="section level3">
-<h3>Using <a href="https://rstudio.github.io/renv/"><code>renv</code></a> for
-Reproducible Environments</h3>
+<div id="future-hosting-on-elter-services-rocket" class="section level3">
+<h3>Future Hosting on eLTER Services :rocket:</h3>
+<p>Upon completion and thorough testing, this tool will be hosted as
+part of the eLTER services. This integration aims to provide seamless
+access and utility for the eLTER community. Until then, this repository
+serves as the primary hub for development, where updates, enhancements,
+and bug fixes will be continuously pushed.</p>
+</div>
+<div id="using-renv-for-reproducible-environments-paperclip" class="section level3">
+<h3>Using <code>renv</code> for Reproducible Environments
+:paperclip:</h3>
 <p>This repository utilizes the <a href="https://rstudio.github.io/renv/"><code>renv</code></a> package to
 manage R dependencies, ensuring that everyone working on the project has
 access to the same package versions. This approach guarantees that the
 project is reproducible, avoiding the “it works on my machine” problem.
-By locking the project to specific versions of R packages, <a href="https://rstudio.github.io/renv/"><code>renv</code></a> ensures
-that the project can be run consistently across different setups and
-over time.</p>
+By locking the project to specific versions of R packages,
+<code>renv</code> ensures that the project can be run consistently
+across different setups and over time.</p>
 <div id="why-use-renv" class="section level4">
-<h4>Why Use <a href="https://rstudio.github.io/renv/"><code>renv</code></a>?</h4>
+<h4>Why Use <code>renv</code>?</h4>
 <ul>
 <li>Reproducibility: Ensures that the R environment is consistent across
 different machines and over time, making the results reliable and
@@ -494,13 +503,12 @@ environment, minimizing conflicts between projects.</li>
 </ul>
 </div>
 <div id="getting-started-with-renv" class="section level4">
-<h4>Getting Started with <a href="https://rstudio.github.io/renv/"><code>renv</code></a></h4>
+<h4>Getting Started with <code>renv</code></h4>
 <p>When you clone this repository for the first time, follow these steps
-to set up <a href="https://rstudio.github.io/renv/"><code>renv</code></a>:</p>
+to set up <code>renv</code>:</p>
 <ul>
-<li>Install <a href="https://rstudio.github.io/renv/"><code>renv</code></a> (if you
-haven’t already): You can install <a href="https://rstudio.github.io/renv/"><code>renv</code></a> globally in
-your R setup using:</li>
+<li>Install <code>renv</code> (if you haven’t already): You can install
+<code>renv</code> globally in your R setup using:</li>
 </ul>
 <pre><code>install.packages(&quot;renv&quot;)</code></pre>
 <ul>
@@ -516,20 +524,12 @@ console:</p></li>
 the <code>renv.lock</code> file, into a project-local library.</p>
 <ul>
 <li>Start Working: After the restoration process is complete, you can
-start working on the project. The <a href="https://rstudio.github.io/renv/"><code>renv</code></a> environment
-will automatically be activated when you open the project in the
-future.</li>
+start working on the project. The <code>renv</code> environment will
+automatically be activated when you open the project in the future.</li>
 </ul>
 <p>By following these steps, you can ensure that the project
 dependencies are correctly managed, aiding in maintaining the project’s
 integrity and reproducibility.</p>
-</div>
-</div>
-<div id="developer" class="section level3">
-<h3>Developer</h3>
-<div id="allan-t.-souza-university-of-helsinki-finland" class="section level4">
-<h4><a href="https://allantsouza.netlify.app/">Allan T. Souza</a>,
-University of Helsinki, Finland</h4>
 </div>
 </div>
 </div>

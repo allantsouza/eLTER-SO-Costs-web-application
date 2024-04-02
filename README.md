@@ -36,7 +36,7 @@
 ## Use license :orange_book:
 - [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
-## Aims :dart:
+## Context and aims :dart:
 
 This repository hosts the information used to build the [eLTER](https://elter-ri.eu/) SO Costs web application. This tool is a specialized resource designed to assist the eLTER (European Long-Term Ecosystem Research) community in estimating the costs associated with upgrading and operating [standard observations](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) across various eLTER sites.
 
@@ -44,47 +44,53 @@ The essence of this tool lies in its ability to adapt calculations based on uniq
 
 The goal of this tool is to provide a user-friendly, efficient, and reliable means for the eLTER community to plan and allocate resources effectively.
 
-## File structure :open_file_folder:
-eLTER-SO-costs-App/
+## Input data :clipboard:
+
+The input data was built based on the agreement of the eLTER community regarding the standard observations. The data is located at the `data` folder and contains consensus information on the target sampling protocols, equipment, as well as estimations on the costs associated to upgrade and operate the standard observations. 
+
+## Structure of files :open_file_folder:
+```eLTER-SO-costs-App/
 ├── data # Folder for input data used by the app
-├── renv # R environment setup with reproducibility in mind
-├── www # Folder containing web assets like stylesheets and JS scripts
+│ ├── eLTER-SO-costs_list-of-standard-observations.xlsx # Data file in xlsx format
+│ └── eLTER-SO-costs_standard-observations-detailed-costs_V18.csv # Data file in csv format
+├── www # Folder containing web assets
+│ ├── eLTER-SO-costs_landing-page-picture.jpg # Picture for the web application landing page
+│ ├── eLTER-SO-costs_elter-logo.png # eLTER simplified logo in png format
+│ └── eLTER-SO-costs_application-logo.jpg # SO Costs logo in jpg format
+├── app.R # The main application script for the Shiny web app
 ├── .Rprofile # R project-specific configuration file
+├── eLTER-SO-costs-App.Rproj # RStudio project file
 ├── .gitignore # Lists files to be ignored by version control system
 ├── LICENSE # The full text of the license for the project
 ├── README.html # Compiled HTML from README.md for detailed project information
 ├── README.md # Markdown text providing an overview of the project
-├── app.R # The main application script for the Shiny web app
-├── eLTER-SO-costs-App.Rproj # RStudio project file
+├── renv # R environment setup with reproducibility in mind
+│ └── ... # folders and files by renv to compile the needed information for reproducibility   
 └── renv.lock # Lock file to capture the state of the R environment
+```
 
-## Naming conventions for files :page_with_curl:
+## Development in R and `Shiny`
+The web application is coded entirely in the [R programming language](https://www.r-project.org/), with a user interface developed using R [`Shiny`](https://shiny.posit.co/). R `Shiny` is a powerful framework for building interactive web applications directly from R scripts, making it an ideal choice for creating accessible and user-friendly tools.
 
-## Development in R and [`Shiny`](https://shiny.posit.co/)
-This repository is dedicated to the development of a tool coded entirely in the R programming language, with a user interface developed using R [`Shiny`](https://shiny.posit.co/). R [`Shiny`](https://shiny.posit.co/) is a powerful framework for building interactive web applications directly from R scripts, making it an ideal choice for creating accessible and user-friendly tools.
+### Deployed version of the web application :link:
+You can access the current version of the `Shiny` app [here](https://allantsouza.shinyapps.io/eLTER-SO-costs/).
 
-About the Tool
-- R-Based: The core logic and functionality of the tool are implemented in R, ensuring efficient data processing and analysis.
-- R [`Shiny`](https://shiny.posit.co/) Interface: The tool features an interactive web interface built with R [`Shiny`](https://shiny.posit.co/), enhancing user experience and accessibility.
-- Accessing the Shiny App
-You can access the current version of the [`Shiny`](https://shiny.posit.co/) app [here](https://allantsouza.shinyapps.io/eLTER-SO-costs/).
+### Future Hosting on eLTER Services :rocket:
+Upon completion and thorough testing, this tool will be hosted as part of the eLTER services. This integration aims to provide seamless access and utility for the eLTER community. Until then, this repository serves as the primary hub for development, where updates, enhancements, and bug fixes will be continuously pushed.
 
-#### Future Hosting on [eLTER](https://elter-ri.eu/) Services
-Upon completion and thorough testing, this tool will be hosted as part of the [eLTER](https://elter-ri.eu/) services. This integration aims to provide seamless access and utility for the [eLTER](https://elter-ri.eu/) community. Until then, this repository serves as the primary hub for development, where updates, enhancements, and bug fixes will be continuously pushed.
+### Using `renv` for Reproducible Environments :paperclip:
+This repository utilizes the [`renv`](https://rstudio.github.io/renv/) package to manage R dependencies, ensuring that everyone working on the project has access to the same package versions. This approach guarantees that the project is reproducible, avoiding the "it works on my machine" problem. By locking the project to specific versions of R packages, `renv` ensures that the project can be run consistently across different setups and over time.
 
-### Using [`renv`](https://rstudio.github.io/renv/) for Reproducible Environments
-This repository utilizes the [`renv`](https://rstudio.github.io/renv/) package to manage R dependencies, ensuring that everyone working on the project has access to the same package versions. This approach guarantees that the project is reproducible, avoiding the "it works on my machine" problem. By locking the project to specific versions of R packages, [`renv`](https://rstudio.github.io/renv/) ensures that the project can be run consistently across different setups and over time.
-
-#### Why Use [`renv`](https://rstudio.github.io/renv/)?
+#### Why Use `renv`?
 - Reproducibility: Ensures that the R environment is consistent across different machines and over time, making the results reliable and reproducible.
 - Collaboration: Simplifies collaboration by ensuring all contributors are using the same package versions.
 - Isolation: Keeps project dependencies separate from your global R environment, minimizing conflicts between projects.
 
-#### Getting Started with [`renv`](https://rstudio.github.io/renv/)
-When you clone this repository for the first time, follow these steps to set up [`renv`](https://rstudio.github.io/renv/):
+#### Getting Started with `renv`
+When you clone this repository for the first time, follow these steps to set up `renv`:
 
-- Install [`renv`](https://rstudio.github.io/renv/) (if you haven't already):
-You can install [`renv`](https://rstudio.github.io/renv/) globally in your R setup using:
+- Install `renv` (if you haven't already):
+You can install `renv` globally in your R setup using:
 
 ```
 install.packages("renv")
@@ -105,10 +111,6 @@ renv::restore()
 
 This command will install all the necessary packages, as specified in the `renv.lock` file, into a project-local library.
 
-- Start Working: After the restoration process is complete, you can start working on the project. The [`renv`](https://rstudio.github.io/renv/) environment will automatically be activated when you open the project in the future.
+- Start Working: After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
 
 By following these steps, you can ensure that the project dependencies are correctly managed, aiding in maintaining the project's integrity and reproducibility.
-
-
-### Developer
-#### [Allan T. Souza](https://allantsouza.netlify.app/), University of Helsinki, Finland
