@@ -2,9 +2,9 @@
 
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
-## Authors
+## Authors :busts_in_silhouette:
 - <b>Name:</b> Allan T. Souza
-  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland: height="20px">
   - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
   - <b>E-mail:</b> allan.souza@helsinki.fi / allantsouza@gmail.com
   - <b>ORCID:</b> [0000-0002-1851-681X](https://orcid.org/0000-0002-1851-681X)
