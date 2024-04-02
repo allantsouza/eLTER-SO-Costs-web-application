@@ -1,4 +1,4 @@
-# eLTER SO Costs
+# eLTER SO Costs web application
 
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
@@ -75,8 +75,8 @@ The web application is coded entirely in the [R programming language](https://ww
 ### Deployed version of the web application :globe_with_meridians:
 You can access the current version of the `Shiny` app [here](https://allantsouza.shinyapps.io/eLTER-SO-costs/).
 
-### Future hosting on eLTER services portal :motorway:
-Upon completion and thorough testing, this tool will be hosted as part of the [eLTER services portal](https://portal.elter.cerit-sc.cz/en). This integration aims to provide seamless access and utility for the eLTER community. Until then, this repository serves as the primary hub for development, where updates, enhancements, and bug fixes will be continuously pushed.
+### Future hosting on eLTER service portal :motorway:
+Upon completion and thorough testing, this tool will be hosted as part of the [eLTER service portal](https://portal.elter.cerit-sc.cz/en). This integration aims to provide seamless access and utility for the eLTER community. Until then, this repository serves as the primary hub for development, where updates, enhancements, and bug fixes will be continuously pushed.
 
 ## Reproducibility :gear:
 This repository utilizes the [`renv`](https://rstudio.github.io/renv/) package to manage R dependencies, ensuring that everyone working on the project has access to the same package versions. By locking the project to specific versions of R packages, `renv` ensures that the project can be run consistently across different setups and over time.
@@ -91,13 +91,13 @@ You can install `renv` globally in your R setup using:
 install.packages("renv")
 ```
 
-- Clone the Repository:
+- Clone the Repository: :arrow_down_small:
 Clone this repository to your local machine as you normally would.
 
-- Launch R:
+- Launch R: :computer:
 Open an R session and set the working directory to the root of the cloned repository.
 
-- Restore the Environment:
+- Restore the Environment: :rewind:
 Run the following command in your R console:
 
 ```
@@ -109,5 +109,17 @@ This command will install all the necessary packages, as specified in the `renv.
 - Start Working: After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
 
 ## Related resources
+- [Zacharias, S. et al. (2021). Discussion paper on eLTER Standard Observations (eLTER SOs). Deliverable D3.1 EU Horizon 2020 eLTER PLUS Project, Grant agreement No. 871128.](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) 
+
+## [CRediT](https://onlinelibrary.wiley.com/doi/epdf/10.1002/leap.1210) author statement
+
+| Contributor         | Contributions                                                            |
+|---------------------|--------------------------------------------------------------------------|
+| Allan T. Souza      | Conceptualization, Data Curation, Formal analysis, Methodology, Software, Validation, Visualization, Writing - Original Draft. |
+| Syed Ashraful Alam  | Conceptualization, Validation, Visualization, Writing - Review & Editing. |
+| Terhi Rasilo        | Conceptualization, Project Administration, Validation, Writing - Review & Editing. |
+| Steffen Zacharias   | Conceptualization, Data Curation, Investigation, Supervision, Validation, Writing - Review & Editing. |
+| Jaana Bäck          | Conceptualization, Data Curation, Funding Acquisition, Investigation,  Project Administration, Resources, Supervision, Validation, Writing - Review & Editing. |
 
 ## Citation
+Souza, AT., Alam, SA., Rasilo, T., Zacharias, S., Bäck, J. (2024). eLTER SO Costs web application.
