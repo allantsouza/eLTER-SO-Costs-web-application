@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.2",
+    "Version": "4.3.3",
     "Repositories": [
       {
         "Name": "CRAN",
@@ -138,6 +138,22 @@
         "R"
       ],
       "Hash": "c39fbec8a30d23e721980b8afb31984c"
+    },
+    "badgr": {
+      "Package": "badgr",
+      "Version": "0.1.1",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "matt-dray",
+      "RemoteRepo": "badgr",
+      "RemoteRef": "master",
+      "RemoteSha": "603edfde88be82a174418e54063f2ac0704ec4f5",
+      "Requirements": [
+        "base64enc",
+        "clipr"
+      ],
+      "Hash": "8890022d197ea62baf3f46b872cb0b4c"
     },
     "base64enc": {
       "Package": "base64enc",
@@ -1485,6 +1501,23 @@
         "vctrs"
       ],
       "Hash": "960e2ae9e09656611e0b8214ad543207"
+    },
+    "summaryBox": {
+      "Package": "summaryBox",
+      "Version": "0.1.0",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "deepanshu88",
+      "RemoteRepo": "summaryBox",
+      "RemoteRef": "main",
+      "RemoteSha": "8cc2bb92d26da1dca15e3a1d5cade064a000cf1c",
+      "Requirements": [
+        "R",
+        "fontawesome",
+        "htmltools"
+      ],
+      "Hash": "19ac26824270a77dfda443af1629df63"
     },
     "sys": {
       "Package": "sys",

@@ -1,5 +1,6 @@
 # libraries ----
 remotes::install_github("deepanshu88/summaryBox")
+remotes::install_github("matt-dray/badgr")
 pacman::p_load(
   "shiny", "shinyjs", "shinyBS",
   "shinyWidgets", "DT", "readxl",
@@ -7,6 +8,7 @@ pacman::p_load(
   "bslib"
 )
 library("summaryBox")
+library("badgr")
 
 # Read the data from the files ----
 ## file with the SO costs
