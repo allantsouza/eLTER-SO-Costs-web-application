@@ -33,10 +33,10 @@
   - <b>E-mail:</b> jaana.back@helsinki.fi
   - <b>ORCID:</b> [0000-0002-6107-667X](https://orcid.org/0000-0002-6107-667X)
 
-## Use license :orange_book:
+## Use license :balance_scale:
 - [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
-## Context and aims :dart:
+## Context and aims :book: :dart:
 
 This repository hosts the information used to build the [eLTER](https://elter-ri.eu/) SO Costs web application. This tool is a specialized resource designed to assist the eLTER (European Long-Term Ecosystem Research) community in estimating the costs associated with upgrading and operating [standard observations](https://elter-ri.eu/storage/app/uploads/public/62c/ea2/a00/62cea2a002845239798196.pdf) across various eLTER sites.
 
@@ -44,7 +44,7 @@ The essence of this tool lies in its ability to adapt calculations based on uniq
 
 The goal of this tool is to provide a user-friendly, efficient, and reliable means for the eLTER community to plan and allocate resources effectively.
 
-## Input data :clipboard:
+## Input data :floppy_disk:
 
 The input data was built based on the agreement of the eLTER community regarding the standard observations. The data is located at the `data` folder and contains consensus information on the target sampling protocols, equipment, as well as estimations on the costs associated to upgrade and operate the standard observations. 
 
@@ -69,25 +69,20 @@ The input data was built based on the agreement of the eLTER community regarding
 └── renv.lock # Lock file to capture the state of the R environment
 ```
 
-## Development in R and `Shiny`
+## Development in R and `Shiny` :man_technologist:
 The web application is coded entirely in the [R programming language](https://www.r-project.org/), with a user interface developed using R [`Shiny`](https://shiny.posit.co/). R `Shiny` is a powerful framework for building interactive web applications directly from R scripts, making it an ideal choice for creating accessible and user-friendly tools.
 
-### Deployed version of the web application :link:
+### Deployed version of the web application :globe_with_meridians:
 You can access the current version of the `Shiny` app [here](https://allantsouza.shinyapps.io/eLTER-SO-costs/).
 
-### Future Hosting on eLTER Services :rocket:
-Upon completion and thorough testing, this tool will be hosted as part of the eLTER services. This integration aims to provide seamless access and utility for the eLTER community. Until then, this repository serves as the primary hub for development, where updates, enhancements, and bug fixes will be continuously pushed.
+### Future hosting on eLTER services portal :motorway:
+Upon completion and thorough testing, this tool will be hosted as part of the [eLTER services portal](https://portal.elter.cerit-sc.cz/en). This integration aims to provide seamless access and utility for the eLTER community. Until then, this repository serves as the primary hub for development, where updates, enhancements, and bug fixes will be continuously pushed.
 
-### Using `renv` for Reproducible Environments :paperclip:
-This repository utilizes the [`renv`](https://rstudio.github.io/renv/) package to manage R dependencies, ensuring that everyone working on the project has access to the same package versions. This approach guarantees that the project is reproducible, avoiding the "it works on my machine" problem. By locking the project to specific versions of R packages, `renv` ensures that the project can be run consistently across different setups and over time.
+## Reproducibility :gear:
+This repository utilizes the [`renv`](https://rstudio.github.io/renv/) package to manage R dependencies, ensuring that everyone working on the project has access to the same package versions. By locking the project to specific versions of R packages, `renv` ensures that the project can be run consistently across different setups and over time.
 
-#### Why Use `renv`?
-- Reproducibility: Ensures that the R environment is consistent across different machines and over time, making the results reliable and reproducible.
-- Collaboration: Simplifies collaboration by ensuring all contributors are using the same package versions.
-- Isolation: Keeps project dependencies separate from your global R environment, minimizing conflicts between projects.
-
-#### Getting Started with `renv`
-When you clone this repository for the first time, follow these steps to set up `renv`:
+### Getting started :beginner:
+When you clone or fork this repository for the first time, follow these steps to set up `renv`:
 
 - Install `renv` (if you haven't already):
 You can install `renv` globally in your R setup using:
@@ -113,4 +108,6 @@ This command will install all the necessary packages, as specified in the `renv.
 
 - Start Working: After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
 
-By following these steps, you can ensure that the project dependencies are correctly managed, aiding in maintaining the project's integrity and reproducibility.
+## Related resources
+
+## Citation
