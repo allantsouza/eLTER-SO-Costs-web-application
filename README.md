@@ -148,7 +148,7 @@ renv::restore()
 | Jaana Bäck          | Conceptualization, Data Curation, Funding Acquisition, Investigation,  Project Administration, Resources, Supervision, Validation, Writing - Review & Editing. |
 
 ## Acknowledgements :bank: :eu:
-This work has been supported by the European Union's H2020 (grant agreement No 871128 - eLTER PLUS). 
+This work has been supported by the European Union's H2020 (grant agreement No 871128 - [eLTER PLUS](https://cordis.europa.eu/project/id/871128)). 
 
 ## Citation :memo:
 Souza, AT., Alam, SA., Rasilo, T., Zacharias, S., Bäck, J. (2024). eLTER SO Costs web application.
