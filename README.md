@@ -4,36 +4,36 @@
 
 ## Authors :busts_in_silhouette:
 - <b>Name:</b> Allan T. Souza
-  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland: height="20px">
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland:
   - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
   - <b>E-mail:</b> allan.souza@helsinki.fi / allantsouza@gmail.com
   - <b>ORCID:</b> [0000-0002-1851-681X](https://orcid.org/0000-0002-1851-681X)
 
 - <b>Name:</b> Syed Ashraful Alam
-  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland:
   - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
   - <b>E-mail:</b> ashraful.alam@helsinki.fi
   - <b>ORCID:</b> [0000-0001-9870-1494](https://orcid.org/0000-0001-9870-1494)
 
 - <b>Name:</b> Terhi Rasilo
-  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland:
   - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
   - <b>E-mail:</b> terhi.rasilo@helsinki.fi
   - <b>ORCID:</b> [0000-0002-3502-4040](https://orcid.org/0000-0002-3502-4040)
   
 - <b>Name:</b> Steffen Zacharias
-  - <b>Affiliation:</b> Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany <img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" width="20px" height="20px">
+  - <b>Affiliation:</b> Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany :germany:
   - <b> Institution ROR:</b> [https://ror.org/000h6jb29](https://ror.org/000h6jb29)
   - <b>E-mail:</b> steffen.zacharias@ufz.de
   - <b>ORCID:</b> [0000-0002-7825-0072](https://orcid.org/0000-0002-7825-0072)
 
 - <b>Name:</b> Jaana Bäck
-  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland <img src="https://upload.wikimedia.org/wikipedia/commons/b/bc/Flag_of_Finland.svg" width="20px" height="20px">
+  - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland:
   - <b> Institution ROR:</b> [https://ror.org/040af2s02](https://ror.org/040af2s02)
   - <b>E-mail:</b> jaana.back@helsinki.fi
   - <b>ORCID:</b> [0000-0002-6107-667X](https://orcid.org/0000-0002-6107-667X)
 
-## Use license
+## Use license :orange_book:
 - [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 
 ## Aims :dart:
@@ -43,6 +43,22 @@ This repository hosts the information used to build the [eLTER](https://elter-ri
 The essence of this tool lies in its ability to adapt calculations based on unique site-specific criteria, ensuring tailored cost estimations. Key factors taken into consideration include the site category, the habitats, the focus spheres, and the potential co-location with other Research Infrastructures, which cover the costs of specific standard observations.
 
 The goal of this tool is to provide a user-friendly, efficient, and reliable means for the eLTER community to plan and allocate resources effectively.
+
+## File structure :open_file_folder:
+eLTER-SO-costs-App/
+├── data # Folder for input data used by the app
+├── renv # R environment setup with reproducibility in mind
+├── www # Folder containing web assets like stylesheets and JS scripts
+├── .Rprofile # R project-specific configuration file
+├── .gitignore # Lists files to be ignored by version control system
+├── LICENSE # The full text of the license for the project
+├── README.html # Compiled HTML from README.md for detailed project information
+├── README.md # Markdown text providing an overview of the project
+├── app.R # The main application script for the Shiny web app
+├── eLTER-SO-costs-App.Rproj # RStudio project file
+└── renv.lock # Lock file to capture the state of the R environment
+
+## Naming conventions for files :page_with_curl:
 
 ## Development in R and [`Shiny`](https://shiny.posit.co/)
 This repository is dedicated to the development of a tool coded entirely in the R programming language, with a user interface developed using R [`Shiny`](https://shiny.posit.co/). R [`Shiny`](https://shiny.posit.co/) is a powerful framework for building interactive web applications directly from R scripts, making it an ideal choice for creating accessible and user-friendly tools.
