@@ -62,6 +62,7 @@ The input data was built based on the agreement of the eLTER community regarding
 ├── eLTER-SO-costs-App.Rproj # RStudio project file
 ├── .gitignore # Lists files to be ignored by version control system
 ├── LICENSE # The full text of the license for the project
+├── CODE_OF_CONDUCT.md # The code of conduct for the project
 ├── README.html # Compiled HTML from README.md for detailed project information
 ├── README.md # Markdown text providing an overview of the project
 ├── renv # R environment setup with reproducibility in mind
