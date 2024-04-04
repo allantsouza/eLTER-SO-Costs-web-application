@@ -3,7 +3,6 @@
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
 ## Quick Links
-## Quick Links
 - [Authors](#authors-busts_in_silhouette)
 - [CRediT author statement](#credit-author-statement-man_scientist-woman_scientist)
 - [Use license](#use-license-balance_scale)
