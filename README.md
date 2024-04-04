@@ -76,6 +76,11 @@ The input data was built based on the agreement of the eLTER community regarding
 
 ## Structure of files :open_file_folder:
 ```eLTER-SO-costs-App/
+├── .github # Folder containing information how to interact with the repository on GitHub
+│ ├── bug_report.md # Instructions to bug reporting
+│ ├── feature_request.md # Instructions to fearure requesting
+│ ├── CODE_OF_CONDUCT.md # Information on the code of conduct of the repository
+│ └── CONTRIBUTING.md # Instructions to contribute to this repository
 ├── data # Folder for input data used by the app
 │ ├── eLTER-SO-costs_list-of-standard-observations.xlsx # Data file in xlsx format
 │ └── eLTER-SO-costs_standard-observations-detailed-costs_V18.csv # Data file in csv format
@@ -88,7 +93,6 @@ The input data was built based on the agreement of the eLTER community regarding
 ├── eLTER-SO-costs-App.Rproj # RStudio project file
 ├── .gitignore # Lists files to be ignored by version control system
 ├── LICENSE # The full text of the license for the project
-├── CODE_OF_CONDUCT.md # The code of conduct for the project
 ├── README.html # Compiled HTML from README.md for detailed project information
 ├── README.md # Markdown text providing an overview of the project
 ├── renv # R environment setup with reproducibility in mind
