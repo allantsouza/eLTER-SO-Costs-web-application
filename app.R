@@ -38,6 +38,12 @@ datasetCosts <- datasetCosts %>%
     upgradeInterval,
     code == "SOHYD_168",
     10
+  )) %>% 
+  # changing the minimumSamplePerSite of SOHYD_006 to 1 (because the purchasePrice refers to a a bundle of 5)
+  mutate(minimumSamplePerSite = replace(
+    minimumSamplePerSite,
+    code == "SOHYD_006",
+    1
   ))
 
 ## file with the info on the SOs' spheres and method types
@@ -112,7 +118,16 @@ station_requirements <- function(dataset, cat, hab, spheres) {
       data.frame() # return an empty data frame in case of an error
     }
   )
-  f_spheres(dataset = df1, spheres = spheres)
+  df2 <- f_spheres(dataset = df1, spheres = spheres)
+  
+  inner_join(df2,
+             dataset %>%
+               distinct(code, habitat, type) %>%
+               filter(!is.na(type)) %>%
+               arrange(code, type)
+  ) %>%
+    filter(habitat == hab) %>%
+    dplyr::select(-habitat)
 }
 
 # Function to calculate the costs per year
