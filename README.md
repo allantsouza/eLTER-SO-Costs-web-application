@@ -2,6 +2,18 @@
 
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
+## Quick Links
+- [Authors](##Authors)
+- [CRediT](##CRediT)
+- [Use license](##Use license)
+- [Input data](##Input data)
+- [Structure of files](##Structure of files)
+- [Development](##Development)
+- [Reproducibility](##Reproducibility)
+- [Citation](##Citation)
+- [Acknowledgements](##Acknowledgements)
+- [Related resources](##Related resources)
+
 ## Authors :busts_in_silhouette:
 - <b>Name:</b> Allan T. Souza
   - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland:
