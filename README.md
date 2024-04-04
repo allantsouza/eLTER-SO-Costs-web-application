@@ -3,16 +3,17 @@
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
 ## Quick Links
-- [Authors](##Authors)
-- [CRediT](##CRediT)
-- [Use license](##Use license)
-- [Input data](##Input data)
-- [Structure of files](##Structure of files)
-- [Development](##Development)
-- [Reproducibility](##Reproducibility)
-- [Citation](##Citation)
-- [Acknowledgements](##Acknowledgements)
-- [Related resources](##Related resources)
+- [Authors](## Authors :busts_in_silhouette:)
+- [CRediT](## [CRediT](https://onlinelibrary.wiley.com/doi/epdf/10.1002/leap.1210) author statement)
+- [Use license](## Use license :balance_scale:)
+- [Context and aims](## Context and aims :book: :dart:)
+- [Input data](## Input data :floppy_disk:)
+- [Structure of files](## Structure of files :open_file_folder:)
+- [Development](## Development :man_technologist:)
+- [Reproducibility](## Reproducibility :repeat:)
+- [Citation](## Citation :memo:)
+- [Acknowledgements](## Acknowledgements :bank: :eu:)
+- [Related resources](## Related resources :paperclips:)
 
 ## Authors :busts_in_silhouette:
 - <b>Name:</b> Allan T. Souza
