@@ -384,7 +384,7 @@ ui <- fluidPage(
           fluidRow(
             column(10, textInput("fileNameInput",
                                  HTML("Site Name of as displayed in <a href = 'https://www.deims.org' target = '_blank'><b>deims.org</b></a>:"),
-                                 value = "Site Name"
+                                 value = NA 
             ),
             style = "padding-right: 0; margin-left: 35px; margin-right: 45px; width: 100%"
             ),
