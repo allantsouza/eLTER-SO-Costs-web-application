@@ -3,17 +3,19 @@
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
 ## Quick Links
-- [Authors](## Authors :busts_in_silhouette:)
-- [CRediT](## [CRediT](https://onlinelibrary.wiley.com/doi/epdf/10.1002/leap.1210) author statement)
-- [Use license](## Use license :balance_scale:)
-- [Context and aims](## Context and aims :book: :dart:)
-- [Input data](## Input data :floppy_disk:)
-- [Structure of files](## Structure of files :open_file_folder:)
-- [Development](## Development :man_technologist:)
-- [Reproducibility](## Reproducibility :repeat:)
-- [Citation](## Citation :memo:)
-- [Acknowledgements](## Acknowledgements :bank: :eu:)
-- [Related resources](## Related resources :paperclips:)
+## Quick Links
+- [Authors](#authors-busts_in_silhouette)
+- [CRediT author statement](#credit-author-statement-man_scientist-woman_scientist)
+- [Use license](#use-license-balance_scale)
+- [Context and aims](#context-and-aims-book-dart)
+- [Input data](#input-data-floppy_disk)
+- [Structure of files](#structure-of-files-open_file_folder)
+- [Development](#development-man_technologist)
+- [Reproducibility](#reproducibility-repeat)
+- [Citation](#citation-memo)
+- [Acknowledgements](#acknowledgements-bank-eu)
+- [Related resources](#related-resources-paperclips)
+
 
 ## Authors :busts_in_silhouette:
 - <b>Name:</b> Allan T. Souza
