@@ -5,7 +5,7 @@
 ## Quick Links
 - [Authors](#authors-busts_in_silhouette)
 - [CRediT author statement](#credit-author-statement-man_scientist-woman_scientist)
-- [Use license](#use-license-balance_scale)
+- [Access policy](#access-policy-balance_scale)
 - [Context and aims](#context-and-aims-book-dart)
 - [Input data](#input-data-floppy_disk)
 - [Structure of files](#structure-of-files-open_file_folder)
@@ -57,8 +57,8 @@
 | Jaana Bäck          | Conceptualization, Data Curation, Funding Acquisition, Investigation,  Project Administration, Resources, Supervision, Validation, Writing - Review & Editing. |
 
 
-## Use license :balance_scale:
-- [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/)
+## Access policy :balance_scale:
+- This project is open and freely available for use under the terms of the [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). For more information about the access rights and usage policies, please refer to the license file.
 
 ## Context and aims :book: :dart:
 
