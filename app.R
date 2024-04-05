@@ -265,7 +265,9 @@ ui <- fluidPage(
                   tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
                 )
               ),
-              tags$h2("FAQ"),
+             tags$h2("Step-by-step guide"),
+              tags$p(HTML("For more detailed information, please access the document <a href='eLTER-SO-Costs_app-webinar_20240328_v1.0.0.pdf' target='_blank'>here</a>.")),
+             tags$h2("FAQ"),
               tags$p(HTML("Click <a href = 'https://docs.google.com/document/d/1JchmwmXVXfhXL4iWhGFjD46rCNKTtfS6oaq68_nNZZA/edit?usp=sharing' target = '_blank'> <b>here</b></a> to access the Frequently Asked Questions.")),
               tags$h2("Accessing the source code"),
               tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-Costs-web-application' target = '_blank'> <b>GitHub</b></a>.")),
