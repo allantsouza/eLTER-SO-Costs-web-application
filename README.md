@@ -85,7 +85,8 @@ The input data was built based on the agreement of the eLTER community regarding
 ├── www # Folder containing web assets
 │ ├── eLTER-SO-costs_landing-page-picture.jpg # Picture for the web application landing page
 │ ├── eLTER-SO-costs_elter-logo.png # eLTER simplified logo in png format
-│ └── eLTER-SO-costs_application-logo.jpg # SO Costs logo in jpg format
+│ ├── eLTER-SO-costs_application-logo.jpg # SO Costs logo in jpg format
+│ └── eLTER-SO-Costs_app-webinar-20240328_v1.0.0.pdf # slide presentation introducing the application
 ├── app.R # The main application script for the Shiny web app
 ├── .Rprofile # R project-specific configuration file
 ├── eLTER-SO-costs-App.Rproj # RStudio project file
