@@ -268,7 +268,7 @@ ui <- fluidPage(
               tags$h2("FAQ"),
               tags$p(HTML("Click <a href = 'https://docs.google.com/document/d/1JchmwmXVXfhXL4iWhGFjD46rCNKTtfS6oaq68_nNZZA/edit?usp=sharing' target = '_blank'> <b>here</b></a> to access the Frequently Asked Questions.")),
               tags$h2("Accessing the source code"),
-              tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-costs-App' target = '_blank'> <b>GitHub</b></a>.")),
+              tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-Costs-web-application' target = '_blank'> <b>GitHub</b></a>.")),
               tags$h2("Disclaimer"),
               tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
             )
