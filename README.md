@@ -15,7 +15,6 @@
 - [Acknowledgements](#acknowledgements-bank-eu)
 - [Related resources](#related-resources-paperclips)
 
-
 ## Authors :busts_in_silhouette:
 - <b>Name:</b> Allan T. Souza
   - <b>Affiliation:</b> Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland :finland:
@@ -94,6 +93,7 @@ The input data was built based on the agreement of the eLTER community regarding
 ├── LICENSE # The full text of the license for the project
 ├── README.html # Compiled HTML from README.md for detailed project information
 ├── README.md # Markdown text providing an overview of the project
+├── CITATION.cff # Information on how to cite the repository
 ├── renv # R environment setup with reproducibility in mind
 │ └── ... # folders and files by renv to compile the needed information for reproducibility   
 └── renv.lock # Lock file to capture the state of the R environment
