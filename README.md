@@ -2,8 +2,6 @@
 
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
-[![DOI](https://zenodo.org/badge/{github_id}.svg)](https://zenodo.org/badge/latestdoi/{github_id})
-
 ## Quick Links
 - [Authors](#authors-busts_in_silhouette)
 - [CRediT author statement](#credit-author-statement-man_scientist-woman_scientist)
