@@ -1,28 +1,29 @@
 cff-version: 1.2.0
-message: "If you use this software in your work, please cite it using the following metadata"
-title: "eLTER SO Costs web application"
-version: 1.0.0
-license: "CC0 1.0"
-date-released: 2024-04-08
-url: "https://github.com/allantsouza/eLTER-SO-Costs-web-application"
+title: eLTER SO Costs web application
+message: If you use this software in your work, please cite it using the following metadata
+type: software
 authors:
-  - family-names: "Souza"
-    given-names: "Allan T"
-    orcid: "https://orcid.org/0000-0002-1851-681X"
-    affiliation: "Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of     Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland"
-  - family-names: "Ashraful Alam"
-    given-names: "Syed"
-    orcid: "https://orcid.org/0000-0001-9870-1494"
-    affiliation: "Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of     Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland"
-  - family-names: "Rasilo"
-    given-names: "Terhi"
-    orcid: "https://orcid.org/0000-0002-3502-4040"
-    affiliation: "Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of     Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland"
-  - family-names: "Zacharias"
-    given-names: "Steffen"
-    orcid: "https://orcid.org/0000-0002-7825-0072"
-    affiliation: "Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for           Environmental Research GmbH, Leipzig, Germany"
-  - family-names: "Bäck"
-    given-names: "Jaana"
-    orcid: "https://orcid.org/0000-0002-6107-667X"
-    affiliation: "Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of     Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland"
+  - family-names: Souza
+    given-names: Allan T
+    orcid: 'https://orcid.org/0000-0002-1851-681X'
+    affiliation: Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
+  - family-names: Ashraful Alam
+    given-names: Syed
+    orcid: 'https://orcid.org/0000-0001-9870-1494'
+    affiliation: Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
+  - family-names: Rasilo
+    given-names: Terhi
+    orcid: 'https://orcid.org/0000-0002-3502-4040'
+    affiliation: Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of  Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
+  - family-names: Zacharias
+    given-names: Steffen
+    orcid: https://orcid.org/0000-0002-7825-0072
+    affiliation: Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany
+  - family-names: Bäck
+    given-names: Jaana
+    orcid: 'https://orcid.org/0000-0002-6107-667X'
+    affiliation: Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
+version: 1.0.0
+repository-code: "https://github.com/allantsouza/eLTER-SO-Costs-web-application"
+license: CC0 1.0
+year: 2024
