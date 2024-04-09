@@ -17,13 +17,13 @@ authors:
     affiliation: Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of  Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
   - family-names: Zacharias
     given-names: Steffen
-    orcid: https://orcid.org/0000-0002-7825-0072
+    orcid: 'https://orcid.org/0000-0002-7825-0072'
     affiliation: Department for Monitoring and Exploration Technologies, UFZ—Helmholtz Centre for Environmental Research GmbH, Leipzig, Germany
   - family-names: Bäck
     given-names: Jaana
     orcid: 'https://orcid.org/0000-0002-6107-667X'
     affiliation: Institute for Atmospheric and Earth System Research (INAR), Forest Sciences, Faculty of Agriculture and Forestry, University of Helsinki, P.O. Box 27, 00014 Helsinki, Finland
-version: 1.0.0
+version: 0.1.0
 repository-code: "https://github.com/allantsouza/eLTER-SO-Costs-web-application"
 license: CC0 1.0
 year: 2024
