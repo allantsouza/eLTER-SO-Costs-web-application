@@ -2,6 +2,8 @@
 
 ![](./www/eLTER-SO-costs_application-logo.jpg)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10948558.svg)](https://doi.org/10.5281/zenodo.10948558)
+
 ## Quick Links
 - [Authors](#authors-busts_in_silhouette)
 - [CRediT author statement](#credit-author-statement-man_scientist-woman_scientist)
@@ -166,7 +168,7 @@ renv::restore()
   - After the restoration process is complete, you can start working on the project. The `renv` environment will automatically be activated when you open the project in the future.
 
 ## Citation :memo:
-Souza, A. T., Ashraful Alam, S., Rasilo, T., Zacharias, S., & Bäck, J. (2024). eLTER SO Costs web application (Version 0.1.0) [Computer software]. https://github.com/allantsouza/eLTER-SO-Costs-web-application
+Souza, A. T., Ashraful Alam, S., Rasilo, T., Zacharias, S., & Bäck, J. (2024). eLTER SO Costs web application (Version 0.1.0) [Computer software]. https://doi.org/10.5281/zenodo.10948558
 
 ## Acknowledgements :bank: :eu:
 This work has been supported by the European Union's H2020 (grant agreement No 871128 - [eLTER PLUS](https://cordis.europa.eu/project/id/871128)). 
