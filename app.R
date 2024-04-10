@@ -31,8 +31,6 @@ datasetCosts <- datasetCosts %>%
     code == "SOSOC_031",
     "Yield (SOSOC_031)"
   )) %>%
-  # removing the sociosphere info from the app (as requested by Jaana Bäck on 2024-03-26
-  filter(!sphere == "Sociosphere") %>% 
   # changing the upgradeInterval from SOHYD_168 to 10 years (requested by S. Zacharias on 2024-03-19)
   mutate(upgradeInterval = replace(
     upgradeInterval,
@@ -108,7 +106,14 @@ f_spheres <- function(dataset, spheres) {
     arrange(sphere, code)
 }
 
-station_requirements <- function(dataset, cat, hab, spheres) {
+station_requirements <- function(dataset, cat, hab, spheres, site_or_platform) {
+  
+  if (site_or_platform == "platform") {
+    dataset <- dataset %>% filter(sphere == "Sociosphere")
+  } else {
+    dataset <- dataset
+  }
+  
   df1 <- tryCatch(
     {
       costs_elter(dataset = dataset, cat = cat, hab = hab)
@@ -302,9 +307,23 @@ ui <- fluidPage(
       sidebarLayout(
         sidebarPanel(
           h2("Select parameters"),
+          # 2024-04-10: adding the selection button for sites or platforms
+          radioGroupButtons(
+            inputId = "site_or_platform",
+            label = "Site x Platform",
+            choices = c("Site" = "site", "Platform" = "platform"),
+            justified = TRUE,
+            width = "100%",
+            size = "normal",
+            checkIcon = list(
+              yes = icon(class = "fa-solid", "fa-check-to-slot"),
+              no = icon("square")
+            ),
+            status = "info"
+          ),
           radioGroupButtons(
             inputId = "cat",
-            label = "eLTER site category",
+            label = "Category",
             choices = c("1", "2"),
             justified = TRUE,
             width = "100%",
@@ -315,22 +334,43 @@ ui <- fluidPage(
             ),
             status = "info"
           ),
+          
+          # conditional panel for habitat selection
+          conditionalPanel(
+            condition = "input.site_or_platform === 'site'",
+            selectInput("hab", "Site habitat", choices = c(Select = "", unique(dataset$habitat)))
+          ),
+          
+          # conditional panels for focus sphere selections
+          conditionalPanel(
+            condition = "input.site_or_platform === 'site' && input.cat === '1'",
+            selectInput("sphere1", "Focus sphere #1", choices = unique(dataset$sphere[dataset$sphere != "Sociosphere"])),
+            selectInput("sphere2", "Focus sphere #2", choices = unique(dataset$sphere[dataset$sphere != "Sociosphere"]))
+          ),
+          
+          # conditional panels for platforms
+          conditionalPanel(
+            condition = "input.site_or_platform === 'platform'",
+            selectInput("sphere1", "Sphere", choices = "Sociosphere")
+            ),
+          
+          # The SO Deselection Box
+          bsTooltip("codeSelect", "Remove the selection of SOs that are not pertinent in your case.", "right"), # Tooltips
+          uiOutput("codeSelect"),
+          # help text for the selection boxes
+          bsTooltip("site_or_platform", "Choose either eLTER site or eLTER platform", "right"), # Tooltips
           bsTooltip("cat", "Choose the category of your eLTER site", "right"), # Tooltips
           bsTooltip("hab", "Choose the habitat of your eLTER site", "right"), # Tooltips
-          selectInput("hab", "Site habitat", choices = c(Select = "", unique(dataset$habitat))),
-          bsTooltip("sphere1", "Choose the focus sphere of your eLTER site. Disabled to category 2 sites.", "right"), # Tooltips
-          selectInput("sphere1", "Focus sphere #1", choices = unique(dataset$sphere)),
-          bsTooltip("sphere2", "Choose the focus sphere of your eLTER site. Disabled to category 2 sites.", "right"), # Tooltips
-          selectInput("sphere2", "Focus sphere #2", choices = unique(dataset$sphere)),
-          uiOutput("codeSelect"),
-          bsTooltip("codeSelect", "Remove the selection of SOs that are not pertinent in your case.", "right"), # Tooltips
+          bsTooltip("sphere1", "Choose the focus sphere. Disabled to category 2 sites.", "right"), # Tooltips
+          bsTooltip("sphere2", "Choose the focus sphere. Disabled to category 2 sites.", "right"), # Tooltips
+          # download button
           downloadButton("download", "Download",
                          class = "btn",
                          icon = icon(class = "fa-regular", name = "fa-circle-down")
           ),
         ),
         mainPanel(
-          h2("List of the standard observations needed in your site"),
+          h2("List of the standard observations needed"),
           DTOutput("updatedTable")
         )
       )
@@ -356,6 +396,7 @@ ui <- fluidPage(
         fluidRow(
           column(
             6,
+            h4(textOutput("selectedPlace"), style = "margin-left: 25px;"),
             h4(textOutput("selectedCat"), style = "margin-left: 25px;"),
             h4(textOutput("selectedHab"), style = "margin-left: 25px;"),
             h4(textOutput("selectedSphere1"), style = "margin-left: 25px;"),
@@ -503,6 +544,7 @@ ui <- fluidPage(
 
 # Shiny app server ----
 server <- function(input, output, session) {
+  
   # rendering the table with unique combinations of sphere, code, and standard_observation
   output$completeTable <- renderDT({
     req(dataset)
@@ -510,51 +552,48 @@ server <- function(input, output, session) {
       distinct(sphere, code, standard_observation)
     datatable(unique_data, options = list(pageLength = 100))
   })
-  
+
   # Reactive function to compute station requirements
   station_result <- reactive({
-    req(input$cat, input$hab, input$sphere1, input$sphere2)
+    req(input$cat, input$hab, input$sphere1, input$sphere2, input$site_or_platform)
     station_requirements(
       dataset = dataset,
       cat = input$cat,
       hab = input$hab,
-      spheres = c(input$sphere1, input$sphere2)
+      spheres = c(input$sphere1, input$sphere2),
+      site_or_platform = input$site_or_platform
     )
   })
-  
+
   # Dynamic UI for code deselection
   output$codeSelect <- renderUI({
-    req(input$cat, input$hab, input$sphere1, input$sphere2)
-    data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2))
+    data <- if (input$site_or_platform == "platform") {
+      
+      # taking one habitat as an example, as for Sociosphere it doesn't matter which one
+      defaultHabitat <- "forests and other wooded land"
+      
+      dataset %>%
+        filter(sphere == "Sociosphere" & habitat == defaultHabitat) %>%
+        distinct(code, so_short_name) %>%
+        arrange(so_short_name)
+      } 
+    else {
+      req(input$cat, input$hab, input$sphere1, input$sphere2)
+      station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2), "site")
+    }
     
-    # Sort so_short_names alphabetically
-    sorted_data <- data %>%
-      arrange(sphere, code)
+    # Prepare the choices for the SO selection box
+    choices <- setNames(data$code, data$so_short_name)
     
-    # Prepare choices as named vector, names are displayed, values are sent to server
-    choices <- setNames(sorted_data$code, sorted_data$so_short_name)
-    
-    # Using pickerInput
+    # Return the pickerInput for both sites and platforms
     pickerInput(
       inputId = "selectedCodes",
-      label = "Optionally, deselect the SOs that are not needed for your site (i.e. SOs covered by other means).",
+      label = "Optionally, deselect the SOs that are not needed.",
       choices = choices,
-      selected = sorted_data$code,
-      multiple = TRUE, # allow multiple selections
-      options = list(`actions-box` = TRUE) # enable actions box for select/deselect all
+      selected = data$code, # Preset all choices as selected by default
+      multiple = TRUE,
+      options = list(`actions-box` = TRUE)
     )
-  })
-  
-  observeEvent(input$cat, {
-    if (input$cat == 2) {
-      # Disable sphere selections when category 2 is selected
-      updateSelectInput(session, "sphere1", selected = character(0), choices = character(0))
-      updateSelectInput(session, "sphere2", selected = character(0), choices = character(0))
-    } else {
-      # Enable sphere selections with available choices when category is not 2
-      updateSelectInput(session, "sphere1", choices = unique(dataset$sphere), selected = unique(dataset$sphere)[1])
-      updateSelectInput(session, "sphere2", choices = unique(dataset$sphere), selected = unique(dataset$sphere)[1])
-    }
   })
   
   # Total costs display
@@ -582,12 +621,31 @@ server <- function(input, output, session) {
     }
   })
   
-  
   # Reactive expression for the filtered data
   filtered_data <- reactive({
-    req(input$selectedCodes)
-    data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2))
-    data[data$code %in% input$selectedCodes, ]
+    # Handling platform selection
+    if (input$site_or_platform == "platform") {
+      platform_data <- dataset %>%
+        filter(sphere == "Sociosphere") %>%
+        select(-habitat, -category) %>%
+        distinct()
+      
+      # Further filter based on selected category
+      if(input$cat == "1") {
+        platform_data <- platform_data %>%
+          mutate(type = "prime") # Assuming 'prime' observations for category 1
+      } else if(input$cat == "2") {
+        platform_data <- platform_data %>%
+          filter(type == "basic") # Assuming 'basic' observations for category 2
+      }
+      return(platform_data)
+    } else {
+      # Prepare data based on other inputs for sites
+      req(input$cat, input$hab, input$sphere1, input$sphere2)
+      site_data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2), input$site_or_platform)
+      site_data <- site_data[site_data$code %in% input$selectedCodes, ]
+      return(site_data)
+    }
   })
   
   # Render the updated table based on the filtered data
@@ -830,8 +888,8 @@ server <- function(input, output, session) {
   
   # reactive expression for the codes available for deselection
   available_codes_for_deselection <- reactive({
-    req(input$cat, input$hab, input$sphere1, input$sphere2)
-    data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2))
+    req(input$cat, input$hab, input$sphere1, input$sphere2, input$site_or_platform)
+    data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2), input$site_or_platform)
     
     # returning the codes available for deselection
     data$code
@@ -1107,13 +1165,18 @@ server <- function(input, output, session) {
   
   # rendering the selected parameters
   # selected category
+  output$selectedPlace <- renderText({
+    paste("SPF:", if (input$site_or_platform != "") input$site_or_platform else "Not selected")
+  })
+  
+  # selected category
   output$selectedCat <- renderText({
-    paste("eLTER site category:", if (input$cat != "") input$cat else "Not selected")
+    paste("Site/Platform category:", if (input$cat != "") input$cat else "Not selected")
   })
   
   # rendering the selected habitat
   output$selectedHab <- renderText({
-    paste("Site habitat:", if (input$hab != "") input$hab else "Not selected")
+    paste("Habitat:", if (input$hab != "") input$hab else "Not selected")
   })
   
   # rendering the selected focus sphere #1
