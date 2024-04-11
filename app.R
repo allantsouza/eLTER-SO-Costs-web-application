@@ -42,7 +42,127 @@ datasetCosts <- datasetCosts %>%
     minimumSamplePerSite,
     code == "SOHYD_006",
     1
-  ))
+  )) %>% 
+  # updating the information on the Sociosphere V22 (Steffen Zacharias shares file in early April 2024)
+  ### Sociosphere
+  #### SOSOC_029
+  # removing the SOSOC_029
+  filter(!c(type == "prime" & code == "SOSOC_029")) %>%
+  #### SOSOC_031
+  mutate(soBundles = replace(soBundles, 
+                             type == "prime" & code == "SOSOC_031",
+                             "Agricultural production (detailed sub-categories for cropland, grassland, forest, fishery, in t/ha and year)")) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_031", 1)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_031", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_031", 2)) %>% 
+  #### SOSOC_030
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_030", "FNVA, FNVA/AWU, FFI, FFI/FWU, Farm worker wages")) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_030", 1)) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_030", "national statistics")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_030", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_030", 2)) %>% 
+  #### SOSOC_114
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_114", "Livestock numbers, breeds, + Feed/grazing management")) %>% 
+  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_114", "retrieval | sample")) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_114", 1)) %>% 
+  mutate(measurementIntervalUnit = replace(measurementIntervalUnit, type == "prime" & code == "SOSOC_114", "year")) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_114", 1)) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_114", "national statistics + site specific survey")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_114", 13)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_114", 11)) %>% 
+  #### SOSOC_032
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_032", 6)) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_032", 1/6)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_032", 9)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_032", 9)) %>% 
+  #### SOSOC_036
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_036", 1)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_036", 1)) %>% 
+  #### SOSOC_037
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_037", "Farm structure / land management / area statistics (incl. conv./organic; conv./cons./no tillage)")) %>% 
+  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_037", "retrieval | sample")) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_037", "national statistics + site-specific survey")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_037", 13)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_037", 11)) %>% 
+  #### SOSOC_040
+  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_040", "retrieval | sample")) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_040", 6)) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_040", 1/6)) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_040", "quantitative + expert judgement + site-specific survey")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_040", 13)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_040", 11)) %>% 
+  #### SOSOC_042
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_042", 1)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_042", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_042", 2)) %>% 
+  #### SOSOC_043
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_043", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_043", 2)) %>% 
+  #### SOSOC_044
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_044", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_044", 2)) %>% 
+  #### SOSOC_045
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_045", "national census data + site-specific survey")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_045", 13)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_045", 11)) %>% 
+  #### SOSOC_183
+  mutate(so = replace(so, type == "prime" & code == "SOSOC_183", "Resource use (MFA)")) %>% 
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_183", "DE, IMP, EXP, DPO, BI, DMC, DMI, PTB, NAS: biomass, metal ores, non-metallic minerals, fossil energy carriers (other products, waste, emissions)")) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_183", "national statistics")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_183", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_183", 2)) %>% 
+  #### SOSOC_184
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_184", "CAP payments for direct support, rural development, market measures (€ total, avg. per beneficiary, avg. per ha, nr. of beneficiaries per total agric. holdings)")) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_184", "national statistics")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_184", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_184", 2)) %>% 
+  ## type basic -----
+### Sociosphere ----
+#### SOSOC_031
+mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_031", "Agricultural production (detailed sub-categories for cropland, grassland, forest, fishery, in t/ha and year)")) %>% 
+  #### SOSOC_030
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_030", "FNVA, FNVA/AWU, FFI, FFI/FWU, Farm worker wages")) %>% 
+  #### SOSOC_114
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_114", "retrieval | sample")) %>% 
+  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_114", "official statistics/ + expert judgement")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_114", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_114", 4)) %>% 
+  #### SOSOC_032
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_032", 3)) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_032", 1/3)) %>% 
+  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_032", "expert judgement")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_032", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_032", 4)) %>% 
+  #### SOSOC_036
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_036", 1)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_036", 1)) %>% 
+  #### SOSOC_037
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_037", "Farm structure / land management / area statistics (incl. conv./organic; conv./cons./no tillage)")) %>% 
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_037", "retrieval | sample")) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_037", 1)) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_037", 1)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_037", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_037", 4)) %>% 
+  #### SOSOC_040
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_040", "retrieval | sample")) %>% 
+  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_040", "quantitative  (statistics, measurements) + expert judgement")) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_040", 4)) %>% 
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_040", 4)) %>% 
+  #### SOSOC_042
+  #### SOSOC_043
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_043", 1)) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_043", 1)) %>% 
+  #### SOSOC_044
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_044", 1)) %>% 
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_044", 1)) %>% 
+  #### SOSOC_045
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_045", "retrieval | sample")) %>% 
+  #### SOSOC_183
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_183", "DE, IMP, EXP, DPO, BI, DMC, DMI, PTB, NAS: biomass, metal ores, non-metallic minerals, fossil energy carriers (other products, waste, emissions)")) %>% 
+  #### SOSOC_184
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_184", "CAP payments for direct support, rural development, market measures (€ total, avg. per beneficiary, avg. per ha, nr. of beneficiaries per total agric. holdings)")) %>% 
+  # updating the totalHumanLabor after the changes
+  mutate(totalHumanLabor = installationEffort + maintenanceEffort + samplingEffort + processingRawDataEffort)
 
 ## file with the info on the SOs' spheres and method types
 dataset <- readxl::read_excel("./data/eLTER-SO-costs_list-of-standard-observations.xlsx")
@@ -438,7 +558,7 @@ ui <- fluidPage(
             h4(HTML("This table shows the costs (in €) of the standard observations (SOs) needed to upgrade and operate the eLTER site with the conditions selected at the <b>Set up</b> tab. The total cost is calculated by summing the different costs types (purchase, maintenance, sampling and lab analysis). Additionally, the table shows the human labor needed to operate the eLTER site, expressed as number of days needed to perform all tasks related to the specific SOs per year."),
               style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
             ),
-            h5(HTML("<br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs. <br /> Note #3: The SOs from the Sociosphere are not included in this tool.</i>"),
+            h5(HTML("<br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs. <br /> </i>"),
               style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
             ),
             # Double line break as a space
@@ -755,18 +875,19 @@ server <- function(input, output, session) {
     req(filtered_data())
     data <- filtered_data()
 
-    # getting the unique combinations of code and type
+    # Getting the unique combinations of code and type
     unique_combinations <- unique(data[, c("code", "type")])
 
-    # applying the SO_cost function to each unique combination of code and type
-    # cost_data <- do.call(rbind, lapply(1:nrow(unique_combinations), function(i) {
+    # Applying the SO_cost function to each unique combination of code and type
     cost_data <- do.call(rbind, lapply(seq_len(nrow(unique_combinations)), function(i) {
       SO_cost(unique_combinations$code[i], unique_combinations$type[i])
     }))
 
-    # Join to include so_short_name
+    # Join to include so_short_name and possibly sphere or any identifier for Sociosphere
     cost_data <- cost_data %>%
-      left_join(codes_coding, by = "code")
+      left_join(codes_coding, by = "code") %>%
+      # Assuming `data` has a 'sphere' column or similar to identify Sociosphere. If not, adjust accordingly.
+      left_join(data[, c("code", "sphere")], by = "code")  # Ensure `data` has the 'sphere' column
 
     # Replace NA values with zero in selected columns
     cost_data <- cost_data %>%
@@ -778,14 +899,23 @@ server <- function(input, output, session) {
         labAnalysisCostYear = ifelse(is.na(labAnalysisCostYear), 0, labAnalysisCostYear),
         totalHumanLabor = ifelse(is.na(totalHumanLabor), 0, totalHumanLabor),
         totalCostYear = ifelse(is.na(totalCostYear), 0, totalCostYear)
-      ) %>%
-      # Remove rows where all cost fields are zero
-      filter(rowSums(select(., purchasePrice, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)) != 0)
+      )
 
+    # Conditionally adjust totalHumanLabor for Sociosphere when "Site" is selected
+    if (input$site_or_platform == "site") {
+      cost_data <- cost_data %>%
+        mutate(totalHumanLabor = ifelse(sphere == "Sociosphere", 0, totalHumanLabor))
+    }
+
+    # Remove rows where all cost fields are zero
+    cost_data <- cost_data %>%
+      filter(rowSums(select(., purchasePrice, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)) != 0) %>%
+      select(-sphere)
 
     return(cost_data)
   })
 
+  
   # Render the calculated costs table
   output$costTable <- renderDT({
     req(cost_calculated_data())
