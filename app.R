@@ -36,7 +36,7 @@ datasetCosts <- datasetCosts %>%
     upgradeInterval,
     code == "SOHYD_168",
     10
-  )) %>% 
+  )) %>%
   # changing the minimumSamplePerSite of SOHYD_006 to 1 (because the purchasePrice refers to a a bundle of 5)
   mutate(minimumSamplePerSite = replace(
     minimumSamplePerSite,
@@ -107,13 +107,12 @@ f_spheres <- function(dataset, spheres) {
 }
 
 station_requirements <- function(dataset, cat, hab, spheres, site_or_platform) {
-  
   if (site_or_platform == "platform") {
     dataset <- dataset %>% filter(sphere == "Sociosphere")
   } else {
     dataset <- dataset
   }
-  
+
   df1 <- tryCatch(
     {
       costs_elter(dataset = dataset, cat = cat, hab = hab)
@@ -124,12 +123,13 @@ station_requirements <- function(dataset, cat, hab, spheres, site_or_platform) {
     }
   )
   df2 <- f_spheres(dataset = df1, spheres = spheres)
-  
-  inner_join(df2,
-             dataset %>%
-               distinct(code, habitat, type) %>%
-               filter(!is.na(type)) %>%
-               arrange(code, type)
+
+  inner_join(
+    df2,
+    dataset %>%
+      distinct(code, habitat, type) %>%
+      filter(!is.na(type)) %>%
+      arrange(code, type)
   ) %>%
     filter(habitat == hab) %>%
     dplyr::select(-habitat)
@@ -140,7 +140,7 @@ SO_cost <- function(input_code, input_type) {
   # Filter data for the specific code
   filtered_data <- datasetCosts %>%
     dplyr::filter(code == input_code, type == input_type)
-  
+
   # Check if the filtered data is empty
   if (nrow(filtered_data) == 0) {
     # Return an empty data frame or a data frame with default/NA values
@@ -152,7 +152,7 @@ SO_cost <- function(input_code, input_type) {
       totalCostYear = NA
     ))
   }
-  
+
   # Calculating costs
   results <- filtered_data %>%
     dplyr::mutate(
@@ -176,15 +176,15 @@ SO_cost <- function(input_code, input_type) {
     ) %>%
     # total cost
     mutate(totalCostYear = sum(purchaseCostYear, maintenanceCostYear,
-                               samplingCostYear, labAnalysisCostYear,
-                               na.rm = TRUE
+      samplingCostYear, labAnalysisCostYear,
+      na.rm = TRUE
     )) %>%
     dplyr::select(
       code, type, purchasePrice, purchaseCostYear,
       maintenanceCostYear, samplingCostYear, labAnalysisCostYear,
       totalHumanLabor, totalCostYear
     )
-  
+
   return(results)
 }
 
@@ -194,7 +194,7 @@ ui <- fluidPage(
   tags$head(
     tags$title("eLTER SO Costs")
   ),
-  
+
   # specifying the favicon for the web browser
   tags$head(
     tags$link(rel = "shortcut icon", type = "image/png", href = "eLTER-SO-costs_elter-logo.png")
@@ -228,7 +228,7 @@ ui <- fluidPage(
                     "))
   ),
   tabsetPanel(
-    
+
     # Adding the Info tab ----
     tabPanel(
       HTML('Info <i class="fas fa-info-circle"></i>'),
@@ -270,14 +270,18 @@ ui <- fluidPage(
                   tags$li("Explore various plots providing insights into the number of SOs by sphere, annual cost breakdown by type, labor effort by sphere, and more. These visualizations aid in understanding the distribution and financial implications of the SOs required for your site.")
                 )
               ),
-            tags$h2("Step-by-step user guide"),
+              tags$h2("Step-by-step user guide"),
               tags$p(HTML("For more detailed information, please access the document <a href='eLTER-SO-Costs_app-webinar_20240328_v1.0.0.pdf' target='_blank'>here</a>.")),
-             tags$h2("FAQ"),
+              tags$h2("FAQ"),
               tags$p(HTML("Click <a href = 'https://docs.google.com/document/d/1JchmwmXVXfhXL4iWhGFjD46rCNKTtfS6oaq68_nNZZA/edit?usp=sharing' target = '_blank'> <b>here</b></a> to access the Frequently Asked Questions.")),
               tags$h2("Accessing the source code"),
               tags$p(HTML("For those interested in exploring the underlying code, contributing to its development, or customizing the application for specific needs, the source code is available on <a href = 'https://github.com/allantsouza/eLTER-SO-Costs-web-application' target = '_blank'> <b>GitHub</b></a>.")),
               tags$h2("Disclaimer"),
-              tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool."))
+              tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool.")),
+              tags$h2("Citation"),
+              tags$p(HTML("Souza, A. T., Ashraful Alam, S., Rasilo, T., Zacharias, S., & Bäck, J. (2024). eLTER SO Costs web application (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.10948558")),
+              tags$a(href="https://doi.org/10.5281/zenodo.10948558", 
+                     target="_blank", tags$img(src="https://zenodo.org/badge/DOI/10.5281/zenodo.10948558.svg"))
             )
           )
         ),
@@ -300,7 +304,7 @@ ui <- fluidPage(
       )
       # )
     ),
-    
+
     # Adding the Set up tab ----
     tabPanel(
       HTML('Set up <i class="fa-solid fa-gears"></i>'),
@@ -334,29 +338,33 @@ ui <- fluidPage(
             ),
             status = "info"
           ),
-          
+
           # conditional panel for habitat selection
           conditionalPanel(
             condition = "input.site_or_platform === 'site'",
             selectInput("hab", "Site habitat", choices = c(Select = "", unique(dataset$habitat)))
           ),
-          
+
           # conditional panels for focus sphere selections
           conditionalPanel(
             condition = "input.site_or_platform === 'site' && input.cat === '1'",
             selectInput("sphere1", "Focus sphere #1", choices = unique(dataset$sphere[dataset$sphere != "Sociosphere"])),
             selectInput("sphere2", "Focus sphere #2", choices = unique(dataset$sphere[dataset$sphere != "Sociosphere"]))
           ),
-          
+
           # conditional panels for platforms
           conditionalPanel(
             condition = "input.site_or_platform === 'platform'",
             selectInput("sphere1", "Sphere", choices = "Sociosphere")
-            ),
-          
-          # The SO Deselection Box
+          ),
+
+          # The SO Deselection Box as conditional of selecting sites
           bsTooltip("codeSelect", "Remove the selection of SOs that are not pertinent in your case.", "right"), # Tooltips
-          uiOutput("codeSelect"),
+          conditionalPanel(
+            condition = "input.site_or_platform === 'site'",
+            uiOutput("codeSelect")
+          ),
+
           # help text for the selection boxes
           bsTooltip("site_or_platform", "Choose either eLTER site or eLTER platform", "right"), # Tooltips
           bsTooltip("cat", "Choose the category of your eLTER site", "right"), # Tooltips
@@ -365,8 +373,8 @@ ui <- fluidPage(
           bsTooltip("sphere2", "Choose the focus sphere. Disabled to category 2 sites.", "right"), # Tooltips
           # download button
           downloadButton("download", "Download",
-                         class = "btn",
-                         icon = icon(class = "fa-regular", name = "fa-circle-down")
+            class = "btn",
+            icon = icon(class = "fa-regular", name = "fa-circle-down")
           ),
         ),
         mainPanel(
@@ -375,7 +383,7 @@ ui <- fluidPage(
         )
       )
     ),
-    
+
     # Adding the SO costs tab ----
     tabPanel(
       HTML('SO costs <i class="fa-solid fa-square-poll-horizontal"></i>'),
@@ -393,6 +401,7 @@ ui <- fluidPage(
             )
           )
         ),
+        # SO costs tab: selected parameters -----
         fluidRow(
           column(
             6,
@@ -415,7 +424,7 @@ ui <- fluidPage(
             )
           )
         ),
-        # plots
+        # SO costs tab: table ----
         # Double line break as a space
         br(),
         br(),
@@ -427,114 +436,126 @@ ui <- fluidPage(
               icon = "fa-solid fa-table-list", style = "info"
             ),
             h4(HTML("This table shows the costs (in €) of the standard observations (SOs) needed to upgrade and operate the eLTER site with the conditions selected at the <b>Set up</b> tab. The total cost is calculated by summing the different costs types (purchase, maintenance, sampling and lab analysis). Additionally, the table shows the human labor needed to operate the eLTER site, expressed as number of days needed to perform all tasks related to the specific SOs per year."),
-               style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
+              style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
             ),
             h5(HTML("<br /> <i>Note #1: This table displays only the SOs which have costs associated to it (economic or human labor). <br /> Note #2: The orange bars displayed within each column visually represent the proportion of each SO's cost relative to the maximum cost found in that column. This graphical representation provides an intuitive understanding of how each SO's cost compares to the highest cost observed for that particular cost variable, allowing for quick visual assessment of cost distribution across SOs. <br /> Note #3: The SOs from the Sociosphere are not included in this tool.</i>"),
-               style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
+              style = "margin-left: 20px; margin-right: 20px; text-align: justify;"
             ),
             # Double line break as a space
             br(),
             br(),
             h5(DTOutput("costTable"),
-               style = "margin-left: 25px; margin-right: 25px; text-align: justify;"
+              style = "margin-left: 25px; margin-right: 25px; text-align: justify;"
             )
           ),
           fluidRow(
             column(10, textInput("fileNameInput",
-                                 HTML("Site Name of as displayed in <a href = 'https://www.deims.org' target = '_blank'><b>deims.org</b></a>:"),
-                                 value = NA 
+              HTML("Site Name of as displayed in <a href = 'https://www.deims.org' target = '_blank'><b>deims.org</b></a>:"),
+              value = NA
             ),
             style = "padding-right: 0; margin-left: 35px; margin-right: 45px; width: 100%"
             ),
             column(2,
-                   bsTooltip("downloadCosts", "Before downloading the table, please add the Site Name of your eLTER site in the box above.", "right"), # Tooltips
-                   downloadButton("downloadCosts",
-                                  "Download",
-                                  style = "margin-right: 25px; text-align: center;",
-                                  icon = icon(class = "fa-regular", name = "fa-circle-down")
-                   ),
-                   style = "padding-right: 0; margin-left: 35px; margin-right: 25px;"
+              bsTooltip("downloadCosts", "Before downloading the table, please add the Site Name of your eLTER site in the box above.", "right"), # Tooltips
+              downloadButton("downloadCosts",
+                "Download",
+                style = "margin-right: 25px; text-align: center;",
+                icon = icon(class = "fa-regular", name = "fa-circle-down")
+              ),
+              style = "padding-right: 0; margin-left: 35px; margin-right: 25px;"
             )
           )
         ),
         # Double line break as a space
         br(),
         br(),
-        
-        # plots
-        fluidRow(
-          column(
-            12,
-            summaryBox2(
-              title = "Data Visualization", "Insights", width = 12,
-              icon = "fa-solid fa-magnifying-glass-chart", style = "info"
-            ),
-          )
-        ),
-        fluidRow(
-          column(
-            6,
-            h4("Number of standard observations breakdown by sphere",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            h5("This plot illustrates the total number of SOs needed to operate the eLTER site.",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            h5(plotOutput("updatedBarPlot"),
-               style = "margin-left: 25px; margin-right: 25px;"
-            ),
-            downloadButton("downloadPlot", "Download",
-                           style = "margin-left: 20px; margin-right: 20px;",
-                           icon = icon(class = "fa-regular", name = "fa-circle-down")
-            ),
-            # Double line break as a space
-            br(),
-            br(),
-            h4("Annual cost breakdown by type",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            h5("This plot depicts the total costs (by type) needed to operate the eLTER site.",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            h5(plotOutput("typeCostPlot"),
-               style = "margin-left: 25px; margin-right: 25px;"
-            ),
-            downloadButton("downloadTypePlotCosts", "Download",
-                           style = "margin-left: 20px; margin-right: 20px;",
-                           icon = icon(class = "fa-regular", name = "fa-circle-down")
-            ),
-            # Double line break as a space
-            br(),
-            br(),
+
+        # SO costs tab: plots ----
+        # fluidRow(
+        #   column(
+        #     12,
+        #     summaryBox2(
+        #       title = "Data Visualization", "Insights", width = 12,
+        #       icon = "fa-solid fa-magnifying-glass-chart", style = "info"
+        #     ),
+        #   )
+        # ),
+        conditionalPanel(
+          condition = "input.site_or_platform === 'site'",
+          fluidRow(
+            column(
+              12,
+              summaryBox2(
+                title = "Data Visualization", "Insights", width = 12,
+                icon = "fa-solid fa-magnifying-glass-chart", style = "info"
+              ),
+            )
           ),
-          column(
-            6,
-            h4("Annual labor effort by sphere",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+          fluidRow(
+            column(
+              6,
+              h4("Number of standard observations breakdown by sphere",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5("This plot illustrates the total number of SOs needed to operate the eLTER site.",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5(plotOutput("updatedBarPlot"),
+                style = "margin-left: 25px; margin-right: 25px;"
+              ),
+              downloadButton("downloadPlot", "Download",
+                style = "margin-left: 20px; margin-right: 20px;",
+                icon = icon(class = "fa-regular", name = "fa-circle-down")
+              ),
+              # Double line break as a space
+              br(),
+              br(),
+              h4("Annual cost breakdown by type",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5("This plot depicts the total costs (by type) needed to operate the eLTER site.",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5(plotOutput("typeCostPlot"),
+                style = "margin-left: 25px; margin-right: 25px;"
+              ),
+              downloadButton("downloadTypePlotCosts", "Download",
+                style = "margin-left: 20px; margin-right: 20px;",
+                icon = icon(class = "fa-regular", name = "fa-circle-down")
+              ),
+              # Double line break as a space
+              br(),
+              br(),
             ),
-            h5("This plot depicts the total working days by sphere needed to operate the eLTER site.",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            h5(plotOutput("sphereFTECostPlot"),
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            downloadButton("downloadHumanCostPlot", "Download",
-                           icon = icon(class = "fa-regular", name = "fa-circle-down")
-            ),
-            # Double line break as a space
-            br(),
-            br(),
-            h4("Annual cost breakdown by sphere", style = "text-align: center;"),
-            h5("This plot illustrates how costs are distributed across different spheres to operate the eLTER site.",
-               style = "margin-left: 20px; margin-right: 20px; text-align: center;"
-            ),
-            h5(plotOutput("sphereCostPlot"), style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
-            downloadButton("downloadSpherePlot", "Download",
-                           icon = icon(class = "fa-regular", name = "fa-circle-down")
-            ),
-            # Double line break as a space
-            br(),
-            br(),
+            column(
+              6,
+              h4("Annual labor effort by sphere",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5("This plot depicts the total working days by sphere needed to operate the eLTER site.",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5(plotOutput("sphereFTECostPlot"),
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              downloadButton("downloadHumanCostPlot", "Download",
+                icon = icon(class = "fa-regular", name = "fa-circle-down")
+              ),
+              # Double line break as a space
+              br(),
+              br(),
+              h4("Annual cost breakdown by sphere", style = "text-align: center;"),
+              h5("This plot illustrates how costs are distributed across different spheres to operate the eLTER site.",
+                style = "margin-left: 20px; margin-right: 20px; text-align: center;"
+              ),
+              h5(plotOutput("sphereCostPlot"), style = "margin-left: 20px; margin-right: 20px; text-align: center;"),
+              downloadButton("downloadSpherePlot", "Download",
+                icon = icon(class = "fa-regular", name = "fa-circle-down")
+              ),
+              # Double line break as a space
+              br(),
+              br(),
+            )
           )
         )
       )
@@ -544,10 +565,8 @@ ui <- fluidPage(
 
 # Shiny app server ----
 server <- function(input, output, session) {
-  
   # rendering the table with unique combinations of sphere, code, and standard_observation
   output$completeTable <- renderDT({
-    req(dataset)
     unique_data <- dataset %>%
       distinct(sphere, code, standard_observation)
     datatable(unique_data, options = list(pageLength = 100))
@@ -568,23 +587,21 @@ server <- function(input, output, session) {
   # Dynamic UI for code deselection
   output$codeSelect <- renderUI({
     data <- if (input$site_or_platform == "platform") {
-      
       # taking one habitat as an example, as for Sociosphere it doesn't matter which one
       defaultHabitat <- "forests and other wooded land"
-      
+
       dataset %>%
         filter(sphere == "Sociosphere" & habitat == defaultHabitat) %>%
         distinct(code, so_short_name) %>%
         arrange(so_short_name)
-      } 
-    else {
+    } else {
       req(input$cat, input$hab, input$sphere1, input$sphere2)
       station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2), "site")
     }
-    
+
     # Prepare the choices for the SO selection box
     choices <- setNames(data$code, data$so_short_name)
-    
+
     # Return the pickerInput for both sites and platforms
     pickerInput(
       inputId = "selectedCodes",
@@ -595,7 +612,7 @@ server <- function(input, output, session) {
       options = list(`actions-box` = TRUE)
     )
   })
-  
+
   # Total costs display
   output$totalCostsDisplay <- renderText({
     cost_data <- cost_calculated_data()
@@ -606,21 +623,21 @@ server <- function(input, output, session) {
       "No costs calculated yet."
     }
   })
-  
+
   # For the upfront purchase costs display
   output$UpfrontPurchaseCosts <- renderText({
     cost_data <- cost_calculated_data()
     if (nrow(cost_data) > 0) {
       upfront_cost <- sum(cost_data$purchasePrice, na.rm = TRUE)
       paste("Upfront purchase cost: €", format(upfront_cost,
-                                               big.mark = ",",
-                                               decimal.mark = ".", digits = 2
+        big.mark = ",",
+        decimal.mark = ".", digits = 2
       ))
     } else {
       "No costs calculated yet."
     }
   })
-  
+
   # Reactive expression for the filtered data
   filtered_data <- reactive({
     # Handling platform selection
@@ -629,12 +646,12 @@ server <- function(input, output, session) {
         filter(sphere == "Sociosphere") %>%
         select(-habitat, -category) %>%
         distinct()
-      
+
       # Further filter based on selected category
-      if(input$cat == "1") {
+      if (input$cat == "1") {
         platform_data <- platform_data %>%
           mutate(type = "prime") # Assuming 'prime' observations for category 1
-      } else if(input$cat == "2") {
+      } else if (input$cat == "2") {
         platform_data <- platform_data %>%
           filter(type == "basic") # Assuming 'basic' observations for category 2
       }
@@ -647,7 +664,7 @@ server <- function(input, output, session) {
       return(site_data)
     }
   })
-  
+
   # Render the updated table based on the filtered data
   output$updatedTable <- renderDT({
     datatable(
@@ -665,14 +682,14 @@ server <- function(input, output, session) {
       selection = "none" # removing the option to highlight rows on the table
     )
   })
-  
+
   # Render the updated bar plot based on the filtered data
   output$updatedBarPlot <- renderPlot({
     req(filtered_data())
     filtered_data() %>%
       mutate(type = fct_recode(type,
-                               "Prime" = "prime",
-                               "Basic" = "basic"
+        "Prime" = "prime",
+        "Basic" = "basic"
       )) %>%
       ggplot(aes(x = type, fill = sphere)) +
       geom_bar(position = "dodge", col = "black") +
@@ -682,7 +699,7 @@ server <- function(input, output, session) {
       theme_bw() +
       theme(text = element_text(size = 18), legend.position = "bottom")
   })
-  
+
   # DownloadHandler for the table
   output$download <- downloadHandler(
     filename = function() {
@@ -690,7 +707,7 @@ server <- function(input, output, session) {
     },
     content = function(file) {
       req(filtered_data())
-      
+
       filtered_data <- filtered_data() %>%
         select(-so_short_name) %>%
         relocate(type, .after = code) %>%
@@ -700,11 +717,11 @@ server <- function(input, output, session) {
           "Standard Observation" = standard_observation,
           "Method type" = type
         )
-      
+
       writexl::write_xlsx(filtered_data, file)
     }
   )
-  
+
   # DownloadHandler for the bar plot
   output$downloadPlot <- downloadHandler(
     filename = function() {
@@ -714,8 +731,8 @@ server <- function(input, output, session) {
       req(filtered_data())
       g <- filtered_data() %>%
         mutate(type = fct_recode(type,
-                                 "Prime" = "prime",
-                                 "Basic" = "basic"
+          "Prime" = "prime",
+          "Basic" = "basic"
         )) %>%
         ggplot(aes(x = type, fill = sphere)) +
         geom_bar(position = "dodge", col = "black") +
@@ -727,30 +744,30 @@ server <- function(input, output, session) {
           text = element_text(size = 18),
           legend.position = "bottom"
         )
-      
+
       # Save the ggplot object to file
       ggsave(file, plot = g, width = 11, height = 8, dpi = 300)
     }
   )
-  
+
   # Reactive expression for cost calculation
   cost_calculated_data <- reactive({
     req(filtered_data())
     data <- filtered_data()
-    
+
     # getting the unique combinations of code and type
     unique_combinations <- unique(data[, c("code", "type")])
-    
+
     # applying the SO_cost function to each unique combination of code and type
     # cost_data <- do.call(rbind, lapply(1:nrow(unique_combinations), function(i) {
     cost_data <- do.call(rbind, lapply(seq_len(nrow(unique_combinations)), function(i) {
       SO_cost(unique_combinations$code[i], unique_combinations$type[i])
     }))
-    
+
     # Join to include so_short_name
     cost_data <- cost_data %>%
       left_join(codes_coding, by = "code")
-    
+
     # Replace NA values with zero in selected columns
     cost_data <- cost_data %>%
       mutate(
@@ -764,18 +781,18 @@ server <- function(input, output, session) {
       ) %>%
       # Remove rows where all cost fields are zero
       filter(rowSums(select(., purchasePrice, purchaseCostYear, maintenanceCostYear, samplingCostYear, labAnalysisCostYear, totalHumanLabor, totalCostYear)) != 0)
-    
-    
+
+
     return(cost_data)
   })
-  
+
   # Render the calculated costs table
   output$costTable <- renderDT({
     req(cost_calculated_data())
-    
+
     # Get the data from the reactive expression
     cost_data <- cost_calculated_data()
-    
+
     # Calculate the sum for each column
     summary_row <- cost_data %>%
       summarise_if(is.numeric, sum, na.rm = TRUE) %>%
@@ -785,10 +802,10 @@ server <- function(input, output, session) {
       ) %>%
       relocate(so_short_name, .before = purchaseCostYear) %>%
       relocate(type, .after = so_short_name)
-    
+
     # Append the summary row to the original data
     final_data <- bind_rows(cost_data, summary_row)
-    
+
     # Render the DataTable with the final data
     datatable(
       final_data %>%
@@ -832,46 +849,46 @@ server <- function(input, output, session) {
       ) %>%
       # adding the colored bars on the table
       formatStyle("Implementation",
-                  background = styleColorBar(range(final_data$purchasePrice), color1),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$purchasePrice), color1),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       formatStyle("Replacement costs of equipment",
-                  background = styleColorBar(range(final_data$purchaseCostYear), "#F26522"),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$purchaseCostYear), "#F26522"),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       formatStyle("Maintenance (per year)",
-                  background = styleColorBar(range(final_data$maintenanceCostYear), "#F26522"),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$maintenanceCostYear), "#F26522"),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       formatStyle("Sampling (per year)",
-                  background = styleColorBar(range(final_data$samplingCostYear), "#F26522"),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$samplingCostYear), "#F26522"),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       formatStyle("Lab analysis (per year)",
-                  background = styleColorBar(range(final_data$labAnalysisCostYear), "#F26522"),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$labAnalysisCostYear), "#F26522"),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       formatStyle("Total cost (per year)",
-                  background = styleColorBar(range(final_data$totalCostYear), "#F26522"),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$totalCostYear), "#F26522"),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       formatStyle("Person days (per year)",
-                  background = styleColorBar(range(final_data$totalHumanLabor), color1),
-                  backgroundSize = "100% 100%",
-                  backgroundRepeat = "no-repeat",
-                  backgroundPosition = "center"
+        background = styleColorBar(range(final_data$totalHumanLabor), color1),
+        backgroundSize = "100% 100%",
+        backgroundRepeat = "no-repeat",
+        backgroundPosition = "center"
       ) %>%
       # Highlighting the summary row
       formatStyle(
@@ -883,18 +900,18 @@ server <- function(input, output, session) {
         color = styleEqual("Total", "white")
       )
   })
-  
+
   # 2024-03-27 - trying to add the variables that were deselected into the excel sheet
-  
+
   # reactive expression for the codes available for deselection
   available_codes_for_deselection <- reactive({
     req(input$cat, input$hab, input$sphere1, input$sphere2, input$site_or_platform)
     data <- station_requirements(dataset, input$cat, input$hab, c(input$sphere1, input$sphere2), input$site_or_platform)
-    
+
     # returning the codes available for deselection
     data$code
   })
-  
+
   # download costs table
   output$downloadCosts <- downloadHandler(
     filename = function() {
@@ -906,19 +923,19 @@ server <- function(input, output, session) {
       # },
       # content = function(file) {
       req(cost_calculated_data())
-      
+
       # getting the available codes for deselection based on the reactive expression
       available_codes <- available_codes_for_deselection()
       selected_codes <- input$selectedCodes
       deselected_codes <- setdiff(available_codes, selected_codes)
-      
+
       # filtering the dataset for deselected codes to get their information
       deselected_data <- dataset %>%
         filter(code %in% deselected_codes) %>%
         select(code, sphere, so_short_name) %>%
         distinct() %>%
         rename("SO short name" = so_short_name)
-      
+
       # original data and selections data preparation
       cost_data <- cost_calculated_data()
       summary_row <- cost_data %>%
@@ -926,9 +943,9 @@ server <- function(input, output, session) {
         mutate(so_short_name = "Total", type = NA) %>%
         relocate(so_short_name, .before = purchaseCostYear) %>%
         relocate(type, .after = so_short_name)
-      
+
       final_data <- bind_rows(cost_data, summary_row)
-      
+
       # renaming and reorganizing variables
       final_data <- final_data %>%
         relocate(totalHumanLabor, .after = totalCostYear) %>%
@@ -946,7 +963,7 @@ server <- function(input, output, session) {
           "Total cost (per year)" = totalCostYear,
           "Person days (per year)" = totalHumanLabor
         )
-      
+
       selections_data <- data.frame(
         Parameter = c("eLTER site category", "Site habitat", "Focus sphere #1", "Focus sphere #2"),
         Selection = c(
@@ -956,35 +973,35 @@ server <- function(input, output, session) {
           ifelse(input$cat == "2", "Not applicable", input$sphere2)
         )
       )
-      
+
       # creating a list with information for the three sheets in Excel
       sheets <- list(
         siteCharacteristics = selections_data,
         deselectedSOs = deselected_data,
         costs = final_data
       )
-      
+
       # writing the list to an Excel file
       writexl::write_xlsx(sheets, file)
     }
   )
-  
+
   # rendering the cost by type plot
   output$typeCostPlot <- renderPlot({
     req(cost_calculated_data())
     long_cost_data <- cost_calculated_data() %>%
       tidyr::pivot_longer(names_to = "costType", values_to = "amount", purchaseCostYear:totalCostYear)
-    
+
     long_cost_data %>%
       ungroup() %>%
       mutate(costType = as_factor(costType)) %>%
       mutate(costType = fct_recode(costType,
-                                   Purchase = "purchaseCostYear",
-                                   Maintenance = "maintenanceCostYear",
-                                   "Lab analysis" = "labAnalysisCostYear",
-                                   Sampling = "samplingCostYear",
-                                   FTEs = "totalHumanLabor",
-                                   Total = "totalCostYear"
+        Purchase = "purchaseCostYear",
+        Maintenance = "maintenanceCostYear",
+        "Lab analysis" = "labAnalysisCostYear",
+        Sampling = "samplingCostYear",
+        FTEs = "totalHumanLabor",
+        Total = "totalCostYear"
       )) %>%
       filter(!costType == "FTEs") %>%
       group_by(costType) %>%
@@ -997,18 +1014,18 @@ server <- function(input, output, session) {
       theme_bw() +
       theme(text = element_text(size = 18), legend.position = "bottom")
   })
-  
+
   # rendering the cost by sphere plot
   output$sphereCostPlot <- renderPlot({
     req(filtered_data())
     cost_with_spheres <- inner_join(cost_calculated_data(), filtered_data(), by = "code")
-    
+
     # data agregation
     aggregated_costs <- cost_with_spheres %>%
       group_by(sphere) %>%
       summarise(totalCostYear = sum(totalCostYear, na.rm = TRUE)) %>%
       ungroup()
-    
+
     # plot
     aggregated_costs %>%
       ggplot(aes(x = reorder(sphere, totalCostYear), y = round(totalCostYear / 1000, 1), fill = sphere)) +
@@ -1024,20 +1041,20 @@ server <- function(input, output, session) {
         legend.position = "bottom"
       )
   })
-  
-  
+
+
   # rendering the human resources cost by sphere plot
   output$sphereFTECostPlot <- renderPlot({
     req(filtered_data())
-    
+
     cost_with_spheres2 <- inner_join(cost_calculated_data(), filtered_data(), by = "code")
-    
+
     # data aggregation
     aggregated_costs2 <- cost_with_spheres2 %>%
       group_by(sphere) %>%
       summarise(FTE = sum(totalHumanLabor, na.rm = TRUE)) %>%
       ungroup()
-    
+
     # plot
     aggregated_costs2 %>%
       ggplot(aes(x = reorder(sphere, FTE), y = round(FTE, 2), fill = sphere)) +
@@ -1053,7 +1070,7 @@ server <- function(input, output, session) {
         legend.position = "bottom"
       )
   })
-  
+
   # download handler for the cost by type plot
   output$downloadTypePlotCosts <- downloadHandler(
     filename = function() {
@@ -1063,17 +1080,17 @@ server <- function(input, output, session) {
       req(cost_calculated_data())
       long_cost_data <- cost_calculated_data() %>%
         tidyr::pivot_longer(names_to = "costType", values_to = "amount", purchaseCostYear:totalCostYear)
-      
+
       g <- long_cost_data %>%
         ungroup() %>%
         mutate(costType = as_factor(costType)) %>%
         mutate(costType = fct_recode(costType,
-                                     Purchase = "purchaseCostYear",
-                                     Maintenance = "maintenanceCostYear",
-                                     "Lab analysis" = "labAnalysisCostYear",
-                                     Sampling = "samplingCostYear",
-                                     FTEs = "totalHumanLabor",
-                                     Total = "totalCostYear"
+          Purchase = "purchaseCostYear",
+          Maintenance = "maintenanceCostYear",
+          "Lab analysis" = "labAnalysisCostYear",
+          Sampling = "samplingCostYear",
+          FTEs = "totalHumanLabor",
+          Total = "totalCostYear"
         )) %>%
         filter(!costType == "FTEs") %>%
         group_by(costType) %>%
@@ -1085,11 +1102,11 @@ server <- function(input, output, session) {
         coord_cartesian(clip = "off") +
         theme_bw() +
         theme(text = element_text(size = 18), legend.position = "bottom")
-      
+
       ggsave(file, plot = g, width = 10, height = 7, dpi = 300)
     }
   )
-  
+
   # download sphere costs plot
   output$downloadSpherePlot <- downloadHandler(
     filename = function() {
@@ -1097,16 +1114,16 @@ server <- function(input, output, session) {
     },
     content = function(file) {
       req(filtered_data())
-      
+
       # Generate the plot
       cost_with_spheres <- inner_join(cost_calculated_data(), filtered_data(), by = "code")
-      
+
       # data aggregation
       aggregated_costs <- cost_with_spheres %>%
         group_by(sphere) %>%
         summarise(totalCostYear = sum(totalCostYear, na.rm = TRUE)) %>%
         ungroup()
-      
+
       # plot
       plot <- aggregated_costs %>%
         ggplot(aes(x = reorder(sphere, totalCostYear), y = round(totalCostYear / 1000, 1), fill = sphere)) +
@@ -1121,12 +1138,12 @@ server <- function(input, output, session) {
           text = element_text(size = 18),
           legend.position = "bottom"
         )
-      
+
       # saving the plot using ggsave
       ggsave(file, plot = plot, width = 8, height = 6, device = "png")
     }
   )
-  
+
   # download human costs by sphere plot
   output$downloadHumanCostPlot <- downloadHandler(
     filename = function() {
@@ -1134,15 +1151,15 @@ server <- function(input, output, session) {
     },
     content = function(file) {
       req(filtered_data())
-      
+
       cost_with_spheres2 <- inner_join(cost_calculated_data(), filtered_data(), by = "code")
-      
+
       # data aggregation
       aggregated_costs2 <- cost_with_spheres2 %>%
         group_by(sphere) %>%
         summarise(FTE = sum(totalHumanLabor, na.rm = TRUE)) %>%
         ungroup()
-      
+
       # plot
       plot <- aggregated_costs2 %>%
         ggplot(aes(x = reorder(sphere, FTE), y = round(FTE, 2), fill = sphere)) +
@@ -1157,60 +1174,53 @@ server <- function(input, output, session) {
           text = element_text(size = 18),
           legend.position = "bottom"
         )
-      
+
       # saving the plot using ggsave
       ggsave(file, plot = plot, width = 8, height = 6, device = "png")
     }
   )
-  
+
   # rendering the selected parameters
   # selected category
   output$selectedPlace <- renderText({
     paste("SPF:", if (input$site_or_platform != "") input$site_or_platform else "Not selected")
   })
-  
+
   # selected category
   output$selectedCat <- renderText({
     paste("Site/Platform category:", if (input$cat != "") input$cat else "Not selected")
   })
-  
-  # rendering the selected habitat
+
   output$selectedHab <- renderText({
-    paste("Habitat:", if (input$hab != "") input$hab else "Not selected")
+    if (input$site_or_platform == "platform") {
+      return("Habitat: Not applicable for platforms") # Or simply return("") to display nothing
+    } else {
+      paste("Site habitat:", if (input$hab != "") input$hab else "Not selected")
+    }
   })
-  
+
   # rendering the selected focus sphere #1
   output$selectedSphere1 <- renderText({
-    if (input$cat == "2") { # checking if category 2 is selected
-      return("Focus sphere #1: Not applicable")
+    if (input$site_or_platform == "platform") {
+      return("Focus sphere #1: Not applicable for platforms") # Or simply return("") to display nothing
+    } else if (input$cat == "2") {
+      return("Focus sphere #1: Not applicable for category 2 sites")
     } else {
-      paste(
-        "Focus sphere #1:",
-        if (input$sphere1 != "") {
-          input$sphere1
-        } else {
-          "Not selected"
-        }
-      )
+      paste("Focus sphere #1:", if (input$sphere1 != "") input$sphere1 else "Not selected")
     }
   })
-  
+
   # rendering the selected focus #2
   output$selectedSphere2 <- renderText({
-    if (input$cat == "2") { # Check if category 2 is selected
-      return("Focus sphere #2: Not applicable")
+    if (input$site_or_platform == "platform") {
+      return("Focus sphere #2: Not applicable for platforms") # Or simply return("") to display nothing
+    } else if (input$cat == "2") {
+      return("Focus sphere #2: Not applicable for category 2 sites")
     } else {
-      paste(
-        "Focus sphere #2:",
-        if (input$sphere2 != "") {
-          input$sphere2
-        } else {
-          "Not selected"
-        }
-      )
+      paste("Focus sphere #2:", if (input$sphere2 != "") input$sphere2 else "Not selected")
     }
   })
-  
+
   # displaying the total costs
   output$totalCostsDisplay <- renderText({
     cost_data <- cost_calculated_data()
@@ -1223,7 +1233,7 @@ server <- function(input, output, session) {
       "Annual cost: €0"
     }
   })
-  
+
   # displaying the total human labor
   output$totalHumanLaborDisplay <- renderText({
     cost_data <- cost_calculated_data()
@@ -1236,7 +1246,7 @@ server <- function(input, output, session) {
       "Labor (person days per year): 0"
     }
   })
-  
+
   # displaying the upfront purchase costs
   output$UpfrontPurchaseCosts <- renderText({
     cost_data <- cost_calculated_data()
