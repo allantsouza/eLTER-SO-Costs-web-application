@@ -90,6 +90,7 @@ The input data was built based on the agreement of the eLTER community regarding
 │ ├── eLTER-SO-costs_application-logo.jpg # SO Costs logo in jpg format
 │ └── eLTER-SO-Costs_app-webinar-20240328_v1.0.0.pdf # slide presentation introducing the application
 ├── app.R # The main application script for the Shiny web app
+├── eLTER-SO-costs_input-data-standardization.R # file to process the changes in input data
 ├── .Rprofile # R project-specific configuration file
 ├── eLTER-SO-costs-App.Rproj # RStudio project file
 ├── .gitignore # Lists files to be ignored by version control system
