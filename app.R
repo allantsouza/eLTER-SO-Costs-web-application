@@ -584,8 +584,8 @@ ui <- fluidPage(
               downloadButton("downloadCosts",
                 "Download",
                 style = "margin-right: 25px; text-align: center;",
-                icon = icon(class = "fa-regular", name = "fa-circle-down")
-              ),
+                icon = icon(class = "fa-regular", name = "fa-circle-down"),
+                ),
               style = "padding-right: 0; margin-left: 35px; margin-right: 25px;"
             )
           )
@@ -695,7 +695,7 @@ server <- function(input, output, session) {
       distinct(sphere, code, standard_observation)
     datatable(unique_data, options = list(pageLength = 100))
   })
-
+  
   # Reactive function to compute station requirements
   station_result <- reactive({
     req(input$cat, input$hab, input$sphere1, input$sphere2, input$site_or_platform)
@@ -1090,14 +1090,13 @@ server <- function(input, output, session) {
     data$code
   })
 
-  # download costs table
   output$downloadCosts <- downloadHandler(
     filename = function() {
       paste0("eLTER-SO-Costs-table_", input$fileNameInput, "_", Sys.Date(), ".xlsx")
     },
     content = function(file) {
       req(cost_calculated_data())
-
+      
       # getting the selections made by the user
       selections_data <- data.frame(
         Parameter = c("SPF", "Category", "Site Habitat", "Focus Sphere #1", "Focus Sphere #2"),
@@ -1169,7 +1168,6 @@ server <- function(input, output, session) {
       if (input$site_or_platform == "platform") {
         sheets <- list(
           siteCharacteristics = selections_data,
-          # deselectedSOs = deselected_data,
           costs = final_data
         )
       } else {
@@ -1184,8 +1182,7 @@ server <- function(input, output, session) {
       writexl::write_xlsx(sheets, file)
     }
   )
-
-
+  
   # rendering the cost by type plot
   output$typeCostPlot <- renderPlot({
     req(cost_calculated_data())
