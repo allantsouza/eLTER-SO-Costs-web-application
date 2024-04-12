@@ -42,125 +42,127 @@ datasetCosts <- datasetCosts %>%
     minimumSamplePerSite,
     code == "SOHYD_006",
     1
-  )) %>% 
+  )) %>%
   # updating the information on the Sociosphere V22 (Steffen Zacharias shares file in early April 2024)
   ### Sociosphere
   #### SOSOC_029
   # removing the SOSOC_029
   filter(!c(type == "prime" & code == "SOSOC_029")) %>%
   #### SOSOC_031
-  mutate(soBundles = replace(soBundles, 
-                             type == "prime" & code == "SOSOC_031",
-                             "Agricultural production (detailed sub-categories for cropland, grassland, forest, fishery, in t/ha and year)")) %>% 
-  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_031", 1)) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_031", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_031", 2)) %>% 
+  mutate(soBundles = replace(
+    soBundles,
+    type == "prime" & code == "SOSOC_031",
+    "Agricultural production (detailed sub-categories for cropland, grassland, forest, fishery, in t/ha and year)"
+  )) %>%
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_031", 1)) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_031", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_031", 2)) %>%
   #### SOSOC_030
-  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_030", "FNVA, FNVA/AWU, FFI, FFI/FWU, Farm worker wages")) %>% 
-  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_030", 1)) %>% 
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_030", "national statistics")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_030", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_030", 2)) %>% 
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_030", "FNVA, FNVA/AWU, FFI, FFI/FWU, Farm worker wages")) %>%
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_030", 1)) %>%
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_030", "national statistics")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_030", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_030", 2)) %>%
   #### SOSOC_114
-  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_114", "Livestock numbers, breeds, + Feed/grazing management")) %>% 
-  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_114", "retrieval | sample")) %>% 
-  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_114", 1)) %>% 
-  mutate(measurementIntervalUnit = replace(measurementIntervalUnit, type == "prime" & code == "SOSOC_114", "year")) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_114", 1)) %>% 
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_114", "national statistics + site specific survey")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_114", 13)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_114", 11)) %>% 
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_114", "Livestock numbers, breeds, + Feed/grazing management")) %>%
+  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_114", "retrieval | sample")) %>%
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_114", 1)) %>%
+  mutate(measurementIntervalUnit = replace(measurementIntervalUnit, type == "prime" & code == "SOSOC_114", "year")) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_114", 1)) %>%
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_114", "national statistics + site specific survey")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_114", 13)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_114", 11)) %>%
   #### SOSOC_032
-  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_032", 6)) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_032", 1/6)) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_032", 9)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_032", 9)) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_032", 6)) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_032", 1 / 6)) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_032", 9)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_032", 9)) %>%
   #### SOSOC_036
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_036", 1)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_036", 1)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_036", 1)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_036", 1)) %>%
   #### SOSOC_037
-  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_037", "Farm structure / land management / area statistics (incl. conv./organic; conv./cons./no tillage)")) %>% 
-  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_037", "retrieval | sample")) %>% 
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_037", "national statistics + site-specific survey")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_037", 13)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_037", 11)) %>% 
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_037", "Farm structure / land management / area statistics (incl. conv./organic; conv./cons./no tillage)")) %>%
+  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_037", "retrieval | sample")) %>%
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_037", "national statistics + site-specific survey")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_037", 13)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_037", 11)) %>%
   #### SOSOC_040
-  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_040", "retrieval | sample")) %>% 
-  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_040", 6)) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_040", 1/6)) %>% 
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_040", "quantitative + expert judgement + site-specific survey")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_040", 13)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_040", 11)) %>% 
+  mutate(samplingType = replace(samplingType, type == "prime" & code == "SOSOC_040", "retrieval | sample")) %>%
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_040", 6)) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "prime" & code == "SOSOC_040", 1 / 6)) %>%
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_040", "quantitative + expert judgement + site-specific survey")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_040", 13)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_040", 11)) %>%
   #### SOSOC_042
-  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_042", 1)) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_042", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_042", 2)) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "prime" & code == "SOSOC_042", 1)) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_042", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_042", 2)) %>%
   #### SOSOC_043
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_043", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_043", 2)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_043", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_043", 2)) %>%
   #### SOSOC_044
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_044", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_044", 2)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_044", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_044", 2)) %>%
   #### SOSOC_045
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_045", "national census data + site-specific survey")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_045", 13)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_045", 11)) %>% 
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_045", "national census data + site-specific survey")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_045", 13)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_045", 11)) %>%
   #### SOSOC_183
-  mutate(so = replace(so, type == "prime" & code == "SOSOC_183", "Resource use (MFA)")) %>% 
-  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_183", "DE, IMP, EXP, DPO, BI, DMC, DMI, PTB, NAS: biomass, metal ores, non-metallic minerals, fossil energy carriers (other products, waste, emissions)")) %>% 
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_183", "national statistics")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_183", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_183", 2)) %>% 
+  mutate(so = replace(so, type == "prime" & code == "SOSOC_183", "Resource use (MFA)")) %>%
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_183", "DE, IMP, EXP, DPO, BI, DMC, DMI, PTB, NAS: biomass, metal ores, non-metallic minerals, fossil energy carriers (other products, waste, emissions)")) %>%
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_183", "national statistics")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_183", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_183", 2)) %>%
   #### SOSOC_184
-  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_184", "CAP payments for direct support, rural development, market measures (€ total, avg. per beneficiary, avg. per ha, nr. of beneficiaries per total agric. holdings)")) %>% 
-  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_184", "national statistics")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_184", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_184", 2)) %>% 
+  mutate(soBundles = replace(soBundles, type == "prime" & code == "SOSOC_184", "CAP payments for direct support, rural development, market measures (€ total, avg. per beneficiary, avg. per ha, nr. of beneficiaries per total agric. holdings)")) %>%
+  mutate(sensorType = replace(sensorType, type == "prime" & code == "SOSOC_184", "national statistics")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "prime" & code == "SOSOC_184", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "prime" & code == "SOSOC_184", 2)) %>%
   ## type basic -----
-### Sociosphere ----
-#### SOSOC_031
-mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_031", "Agricultural production (detailed sub-categories for cropland, grassland, forest, fishery, in t/ha and year)")) %>% 
+  ### Sociosphere ----
+  #### SOSOC_031
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_031", "Agricultural production (detailed sub-categories for cropland, grassland, forest, fishery, in t/ha and year)")) %>%
   #### SOSOC_030
-  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_030", "FNVA, FNVA/AWU, FFI, FFI/FWU, Farm worker wages")) %>% 
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_030", "FNVA, FNVA/AWU, FFI, FFI/FWU, Farm worker wages")) %>%
   #### SOSOC_114
-  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_114", "retrieval | sample")) %>% 
-  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_114", "official statistics/ + expert judgement")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_114", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_114", 4)) %>% 
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_114", "retrieval | sample")) %>%
+  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_114", "official statistics/ + expert judgement")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_114", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_114", 4)) %>%
   #### SOSOC_032
-  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_032", 3)) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_032", 1/3)) %>% 
-  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_032", "expert judgement")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_032", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_032", 4)) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_032", 3)) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_032", 1 / 3)) %>%
+  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_032", "expert judgement")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_032", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_032", 4)) %>%
   #### SOSOC_036
-  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_036", 1)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_036", 1)) %>% 
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_036", 1)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_036", 1)) %>%
   #### SOSOC_037
-  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_037", "Farm structure / land management / area statistics (incl. conv./organic; conv./cons./no tillage)")) %>% 
-  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_037", "retrieval | sample")) %>% 
-  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_037", 1)) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_037", 1)) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_037", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_037", 4)) %>% 
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_037", "Farm structure / land management / area statistics (incl. conv./organic; conv./cons./no tillage)")) %>%
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_037", "retrieval | sample")) %>%
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_037", 1)) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_037", 1)) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_037", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_037", 4)) %>%
   #### SOSOC_040
-  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_040", "retrieval | sample")) %>% 
-  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_040", "quantitative  (statistics, measurements) + expert judgement")) %>% 
-  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_040", 4)) %>% 
-  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_040", 4)) %>% 
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_040", "retrieval | sample")) %>%
+  mutate(sensorType = replace(sensorType, type == "basic" & code == "SOSOC_040", "quantitative  (statistics, measurements) + expert judgement")) %>%
+  mutate(samplingEffort = replace(samplingEffort, type == "basic" & code == "SOSOC_040", 4)) %>%
+  mutate(processingRawDataEffort = replace(processingRawDataEffort, type == "basic" & code == "SOSOC_040", 4)) %>%
   #### SOSOC_042
   #### SOSOC_043
-  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_043", 1)) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_043", 1)) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_043", 1)) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_043", 1)) %>%
   #### SOSOC_044
-  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_044", 1)) %>% 
-  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_044", 1)) %>% 
+  mutate(measurementInterval = replace(measurementInterval, type == "basic" & code == "SOSOC_044", 1)) %>%
+  mutate(measurementsPerYear = replace(measurementsPerYear, type == "basic" & code == "SOSOC_044", 1)) %>%
   #### SOSOC_045
-  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_045", "retrieval | sample")) %>% 
+  mutate(samplingType = replace(samplingType, type == "basic" & code == "SOSOC_045", "retrieval | sample")) %>%
   #### SOSOC_183
-  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_183", "DE, IMP, EXP, DPO, BI, DMC, DMI, PTB, NAS: biomass, metal ores, non-metallic minerals, fossil energy carriers (other products, waste, emissions)")) %>% 
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_183", "DE, IMP, EXP, DPO, BI, DMC, DMI, PTB, NAS: biomass, metal ores, non-metallic minerals, fossil energy carriers (other products, waste, emissions)")) %>%
   #### SOSOC_184
-  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_184", "CAP payments for direct support, rural development, market measures (€ total, avg. per beneficiary, avg. per ha, nr. of beneficiaries per total agric. holdings)")) %>% 
+  mutate(soBundles = replace(soBundles, type == "basic" & code == "SOSOC_184", "CAP payments for direct support, rural development, market measures (€ total, avg. per beneficiary, avg. per ha, nr. of beneficiaries per total agric. holdings)")) %>%
   # updating the totalHumanLabor after the changes
   mutate(totalHumanLabor = installationEffort + maintenanceEffort + samplingEffort + processingRawDataEffort)
 
@@ -400,8 +402,10 @@ ui <- fluidPage(
               tags$p(HTML("This app is a <i>beta product</i>, and we are continuously working to improve its accuracy and functionality. <br /> If you encounter any issues or have suggestions for improvement, please contact the developer at: <a href='mailto:allan.souza@helsinki.fi'><b>allan.souza@helsinki.fi</b></a>. <br /> Your feedback is invaluable in helping us enhance this tool.")),
               tags$h2("Citation"),
               tags$p(HTML("Souza, A. T., Ashraful Alam, S., Rasilo, T., Zacharias, S., & Bäck, J. (2024). eLTER SO Costs web application (v0.1.0). Zenodo. https://doi.org/10.5281/zenodo.10948558")),
-              tags$a(href="https://doi.org/10.5281/zenodo.10948558", 
-                     target="_blank", tags$img(src="https://zenodo.org/badge/DOI/10.5281/zenodo.10948558.svg"))
+              tags$a(
+                href = "https://doi.org/10.5281/zenodo.10948558",
+                target = "_blank", tags$img(src = "https://zenodo.org/badge/DOI/10.5281/zenodo.10948558.svg")
+              )
             )
           )
         ),
@@ -887,7 +891,7 @@ server <- function(input, output, session) {
     cost_data <- cost_data %>%
       left_join(codes_coding, by = "code") %>%
       # Assuming `data` has a 'sphere' column or similar to identify Sociosphere. If not, adjust accordingly.
-      left_join(data[, c("code", "sphere")], by = "code")  # Ensure `data` has the 'sphere' column
+      left_join(data[, c("code", "sphere")], by = "code") # Ensure `data` has the 'sphere' column
 
     # Replace NA values with zero in selected columns
     cost_data <- cost_data %>%
@@ -915,7 +919,6 @@ server <- function(input, output, session) {
     return(cost_data)
   })
 
-  
   # Render the calculated costs table
   output$costTable <- renderDT({
     req(cost_calculated_data())
@@ -936,99 +939,144 @@ server <- function(input, output, session) {
     # Append the summary row to the original data
     final_data <- bind_rows(cost_data, summary_row)
 
-    # Render the DataTable with the final data
-    datatable(
-      final_data %>%
-        relocate(totalHumanLabor, .after = totalCostYear) %>%
-        relocate(so_short_name, .after = code) %>%
-        select(-code) %>%
-        arrange(totalCostYear, totalHumanLabor) %>%
-        rename(
-          "SO short name" = so_short_name,
-          "Method type" = type,
-          "Implementation" = purchasePrice,
-          "Replacement costs of equipment" = purchaseCostYear,
-          "Maintenance (per year)" = maintenanceCostYear,
-          "Sampling (per year)" = samplingCostYear,
-          "Lab analysis (per year)" = labAnalysisCostYear,
-          "Total cost (per year)" = totalCostYear,
-          "Person days (per year)" = totalHumanLabor
+    if (input$site_or_platform == "platform") {
+      datatable(
+        final_data %>%
+          relocate(totalHumanLabor, .after = totalCostYear) %>%
+          relocate(so_short_name, .after = code) %>%
+          select(-code) %>%
+          arrange(totalCostYear, totalHumanLabor) %>%
+          select(so_short_name, type, totalHumanLabor) %>%
+          rename(
+            "SO short name" = so_short_name,
+            "Method type" = type,
+            "Person days (per year)" = totalHumanLabor
+          ),
+        options = list(
+          pageLength = 100,
+          columnDefs = list(
+            list(width = "500px", targets = c(0)),
+            list(width = "60px", targets = c(1))
+          ),
+          autoWidth = TRUE
         ),
-      options = list(
-        pageLength = 100,
-        columnDefs = list(
-          list(width = "500px", targets = c(0)),
-          list(width = "60px", targets = c(1))
+        rownames = FALSE,
+        selection = "none" # removing the option to highlight rows on the table
+      ) %>%
+        formatStyle(
+          "Method type",
+          fontWeight = styleEqual("prime", "bold") # making the font bold for prime method
+        ) %>%
+        formatStyle("Person days (per year)",
+          background = styleColorBar(range(final_data$totalHumanLabor), color1),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        # Highlighting the summary row
+        formatStyle(
+          "SO short name",
+          target = "row",
+          backgroundColor = styleEqual("Total", "#F26522"),
+          backgroundSize = "100% 100%",
+          fontWeight = styleEqual("Total", "bold"), # making the font bold for Total
+          color = styleEqual("Total", "white")
+        )
+    } else {
+      # Render the DataTable with the final data
+      datatable(
+        final_data %>%
+          relocate(totalHumanLabor, .after = totalCostYear) %>%
+          relocate(so_short_name, .after = code) %>%
+          select(-code) %>%
+          arrange(totalCostYear, totalHumanLabor) %>%
+          rename(
+            "SO short name" = so_short_name,
+            "Method type" = type,
+            "Implementation" = purchasePrice,
+            "Replacement costs of equipment" = purchaseCostYear,
+            "Maintenance (per year)" = maintenanceCostYear,
+            "Sampling (per year)" = samplingCostYear,
+            "Lab analysis (per year)" = labAnalysisCostYear,
+            "Total cost (per year)" = totalCostYear,
+            "Person days (per year)" = totalHumanLabor
+          ),
+        options = list(
+          pageLength = 100,
+          columnDefs = list(
+            list(width = "500px", targets = c(0)),
+            list(width = "60px", targets = c(1))
+          ),
+          autoWidth = TRUE
         ),
-        autoWidth = TRUE
-      ),
-      rownames = FALSE,
-      selection = "none" # removing the option to highlight rows on the table
-    ) %>%
-      formatStyle(
-        "Method type",
-        fontWeight = styleEqual("prime", "bold") # making the font bold for prime method
+        rownames = FALSE,
+        selection = "none" # removing the option to highlight rows on the table
       ) %>%
-      formatCurrency(
-        c(
-          "Implementation", "Replacement costs of equipment",
-          "Maintenance (per year)", "Sampling (per year)",
-          "Lab analysis (per year)", "Total cost (per year)"
-        ),
-        currency = "€"
-      ) %>%
-      # adding the colored bars on the table
-      formatStyle("Implementation",
-        background = styleColorBar(range(final_data$purchasePrice), color1),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      formatStyle("Replacement costs of equipment",
-        background = styleColorBar(range(final_data$purchaseCostYear), "#F26522"),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      formatStyle("Maintenance (per year)",
-        background = styleColorBar(range(final_data$maintenanceCostYear), "#F26522"),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      formatStyle("Sampling (per year)",
-        background = styleColorBar(range(final_data$samplingCostYear), "#F26522"),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      formatStyle("Lab analysis (per year)",
-        background = styleColorBar(range(final_data$labAnalysisCostYear), "#F26522"),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      formatStyle("Total cost (per year)",
-        background = styleColorBar(range(final_data$totalCostYear), "#F26522"),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      formatStyle("Person days (per year)",
-        background = styleColorBar(range(final_data$totalHumanLabor), color1),
-        backgroundSize = "100% 100%",
-        backgroundRepeat = "no-repeat",
-        backgroundPosition = "center"
-      ) %>%
-      # Highlighting the summary row
-      formatStyle(
-        "SO short name",
-        target = "row",
-        backgroundColor = styleEqual("Total", "#F26522"),
-        backgroundSize = "100% 100%",
-        fontWeight = styleEqual("Total", "bold"), # making the font bold for Total
-        color = styleEqual("Total", "white")
-      )
+        formatStyle(
+          "Method type",
+          fontWeight = styleEqual("prime", "bold") # making the font bold for prime method
+        ) %>%
+        formatCurrency(
+          c(
+            "Implementation", "Replacement costs of equipment",
+            "Maintenance (per year)", "Sampling (per year)",
+            "Lab analysis (per year)", "Total cost (per year)"
+          ),
+          currency = "€"
+        ) %>%
+        # adding the colored bars on the table
+        formatStyle("Implementation",
+          background = styleColorBar(range(final_data$purchasePrice), color1),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        formatStyle("Replacement costs of equipment",
+          background = styleColorBar(range(final_data$purchaseCostYear), "#F26522"),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        formatStyle("Maintenance (per year)",
+          background = styleColorBar(range(final_data$maintenanceCostYear), "#F26522"),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        formatStyle("Sampling (per year)",
+          background = styleColorBar(range(final_data$samplingCostYear), "#F26522"),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        formatStyle("Lab analysis (per year)",
+          background = styleColorBar(range(final_data$labAnalysisCostYear), "#F26522"),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        formatStyle("Total cost (per year)",
+          background = styleColorBar(range(final_data$totalCostYear), "#F26522"),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        formatStyle("Person days (per year)",
+          background = styleColorBar(range(final_data$totalHumanLabor), color1),
+          backgroundSize = "100% 100%",
+          backgroundRepeat = "no-repeat",
+          backgroundPosition = "center"
+        ) %>%
+        # Highlighting the summary row
+        formatStyle(
+          "SO short name",
+          target = "row",
+          backgroundColor = styleEqual("Total", "#F26522"),
+          backgroundSize = "100% 100%",
+          fontWeight = styleEqual("Total", "bold"), # making the font bold for Total
+          color = styleEqual("Total", "white")
+        )
+    }
   })
 
   # 2024-03-27 - trying to add the variables that were deselected into the excel sheet
@@ -1048,25 +1096,41 @@ server <- function(input, output, session) {
       paste0("eLTER-SO-Costs-table_", input$fileNameInput, "_", Sys.Date(), ".xlsx")
     },
     content = function(file) {
-      # filename = function() {
-      #   paste0("eLTER-SO-Costs-table_", Sys.Date(), ".xlsx")
-      # },
-      # content = function(file) {
       req(cost_calculated_data())
 
-      # getting the available codes for deselection based on the reactive expression
+      # getting the selections made by the user
+      selections_data <- data.frame(
+        Parameter = c("SPF", "Category", "Site Habitat", "Focus Sphere #1", "Focus Sphere #2"),
+        Selection = c(
+          ifelse(input$site_or_platform != "", input$site_or_platform, "Not selected"),
+          ifelse(input$cat != "", input$cat, "Not selected"),
+          ifelse(input$site_or_platform == "platform", "Not applicable for platforms",
+            ifelse(input$hab != "", input$hab, "Not selected")
+          ),
+          ifelse(input$site_or_platform == "platform", "Not applicable for platforms",
+            ifelse(input$cat == "2", "Not applicable for category 2 sites",
+              ifelse(input$sphere1 != "", input$sphere1, "Not selected")
+            )
+          ),
+          ifelse(input$site_or_platform == "platform", "Not applicable for platforms",
+            ifelse(input$cat == "2", "Not applicable for category 2 sites",
+              ifelse(input$sphere2 != "", input$sphere2, "Not selected")
+            )
+          )
+        )
+      )
+
+      # deselecting codes
       available_codes <- available_codes_for_deselection()
       selected_codes <- input$selectedCodes
       deselected_codes <- setdiff(available_codes, selected_codes)
-
-      # filtering the dataset for deselected codes to get their information
       deselected_data <- dataset %>%
         filter(code %in% deselected_codes) %>%
         select(code, sphere, so_short_name) %>%
         distinct() %>%
         rename("SO short name" = so_short_name)
 
-      # original data and selections data preparation
+      # preparing the final cost data
       cost_data <- cost_calculated_data()
       summary_row <- cost_data %>%
         summarise_if(is.numeric, sum, na.rm = TRUE) %>%
@@ -1074,10 +1138,7 @@ server <- function(input, output, session) {
         relocate(so_short_name, .before = purchaseCostYear) %>%
         relocate(type, .after = so_short_name)
 
-      final_data <- bind_rows(cost_data, summary_row)
-
-      # renaming and reorganizing variables
-      final_data <- final_data %>%
+      final_data <- bind_rows(cost_data, summary_row) %>%
         relocate(totalHumanLabor, .after = totalCostYear) %>%
         relocate(so_short_name, .after = code) %>%
         select(-code) %>%
@@ -1094,27 +1155,36 @@ server <- function(input, output, session) {
           "Person days (per year)" = totalHumanLabor
         )
 
-      selections_data <- data.frame(
-        Parameter = c("eLTER site category", "Site habitat", "Focus sphere #1", "Focus sphere #2"),
-        Selection = c(
-          input$cat,
-          input$hab,
-          ifelse(input$cat == "2", "Not applicable", input$sphere1),
-          ifelse(input$cat == "2", "Not applicable", input$sphere2)
+      if (input$site_or_platform == "platform") {
+        final_data <- final_data %>%
+          select(
+            "SO short name",
+            "Method type",
+            "Person days (per year)"
+          )
+      } else {
+        final_data
+      }
+
+      if (input$site_or_platform == "platform") {
+        sheets <- list(
+          siteCharacteristics = selections_data,
+          # deselectedSOs = deselected_data,
+          costs = final_data
         )
-      )
+      } else {
+        sheets <- list(
+          siteCharacteristics = selections_data,
+          deselectedSOs = deselected_data,
+          costs = final_data
+        )
+      }
 
-      # creating a list with information for the three sheets in Excel
-      sheets <- list(
-        siteCharacteristics = selections_data,
-        deselectedSOs = deselected_data,
-        costs = final_data
-      )
-
-      # writing the list to an Excel file
+      # Writing the list to an Excel file
       writexl::write_xlsx(sheets, file)
     }
   )
+
 
   # rendering the cost by type plot
   output$typeCostPlot <- renderPlot({
@@ -1323,7 +1393,7 @@ server <- function(input, output, session) {
 
   output$selectedHab <- renderText({
     if (input$site_or_platform == "platform") {
-      return("Habitat: Not applicable for platforms") # Or simply return("") to display nothing
+      return("Habitat: Not applicable for platforms")
     } else {
       paste("Site habitat:", if (input$hab != "") input$hab else "Not selected")
     }
